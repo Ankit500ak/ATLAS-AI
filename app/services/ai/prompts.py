@@ -30,7 +30,9 @@ OUTPUT FORMAT:
 - Use bullet points for multiple items
 - Keep paragraphs short (1-2 lines max)
 - End with a relevant follow-up suggestion or question
-- Use HTML tags, NOT markdown asterisks"""
+- Use HTML tags, NOT markdown asterisks
+- IMPORTANT: Telegram only supports these HTML tags: <b>, <i>, <code>, <pre>, <a>, <u>, <s>, <tg-spoiler>, <blockquote>
+- DO NOT use <font>, <span>, <div>, <p>, or any other HTML tags - they will show as raw text!
 
     ONBOARDING_STEP_1 = """Welcome to Atlas AI Financial Assistant! I'm here to help you stay on top of markets, research companies, and make smarter financial decisions.
 

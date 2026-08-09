@@ -8,6 +8,7 @@ from app.services.ai.prompts import PromptTemplates
 from app.services.ai.follow_up_loader import get_follow_ups
 from app.services.conversation.context_manager import ContextManager
 from app.services.financial.stock_service import StockService
+from app.services.financial.market_service import MarketService
 from app.services.financial.news_service import NewsService
 from app.services.financial.sec_edgar_service import sec_edgar_service
 from app.services.financial.earnings_calendar import earnings_calendar
@@ -261,6 +262,11 @@ class AIOrchestrator:
         if intent == "market_news":
             news = await self.news_service.get_market_news(limit=5)
             data["market_news"] = news
+
+        if intent == "market_overview":
+            market_service = MarketService()
+            indices = await market_service.get_market_indices()
+            data.update(indices)
 
         if intent == "earnings_analysis" and symbols:
             for symbol in symbols[:1]:

@@ -136,13 +136,36 @@ Be direct and concise. Explain the "so what" — why should they care about this
         return "\n\n".join(parts)
 
     def _parse_response(self, content: str) -> Dict[str, Any]:
+        # Convert markdown to HTML for Telegram
+        html_content = self._markdown_to_html(content)
         return {
-            "response": content,
+            "response": html_content,
             "insights": self._extract_insights(content),
             "sources": [],
             "confidence": 0.85,
             "follow_up_questions": [],
         }
+
+    def _markdown_to_html(self, text: str) -> str:
+        """Convert markdown formatting to HTML for Telegram."""
+        import re
+        
+        # Convert **bold** to <b>bold</b>
+        text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
+        
+        # Convert *italic* to <i>italic</i>
+        text = re.sub(r'\*(.+?)\*', r'<i>\1</i>', text)
+        
+        # Convert `code` to <code>code</code>
+        text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
+        
+        # Convert [link](url) to <a href="url">link</a>
+        text = re.sub(r'\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>', text)
+        
+        # Convert bullet points
+        text = re.sub(r'^\s*[-•]\s+', '  • ', text, flags=re.MULTILINE)
+        
+        return text
 
     def _extract_insights(self, content: str) -> List[str]:
         insights = []

@@ -24,10 +24,13 @@ RULES:
 - Always include one actionable insight or follow-up question
 
 OUTPUT FORMAT:
-- Use *bold* for important numbers and company names
+- Use <b>bold</b> for important numbers and company names
+- Use <i>italic</i> for emphasis
+- Use <code>code</code> for data values
 - Use bullet points for multiple items
 - Keep paragraphs short (1-2 lines max)
-- End with a relevant follow-up suggestion or question"""
+- End with a relevant follow-up suggestion or question
+- Use HTML tags, NOT markdown asterisks"""
 
     ONBOARDING_STEP_1 = """Welcome to Atlas AI Financial Assistant! I'm here to help you stay on top of markets, research companies, and make smarter financial decisions.
 

@@ -30,10 +30,14 @@ class TelegramBot:
         self.orchestrator = AIOrchestrator()
         self.app = None
 
-    async def safe_send(self, chat_or_msg, text: str, parse_mode: str = "Markdown",
+    async def safe_send(self, chat_or_msg, text: str, parse_mode: str = "HTML",
                         reply_to=None, retry: bool = True) -> bool:
-        """Send a message with automatic markdown fallback and length handling."""
+        """Send a message with automatic HTML formatting and length handling."""
         from app.utils.formatters import chunk_message
+        from app.services.telegram.formatter import format_message
+
+        # Auto-format all messages
+        text = format_message(text)
 
         chunks = chunk_message(text, max_length=self.MAX_MESSAGE_LENGTH - 50)
         all_success = True
@@ -42,16 +46,16 @@ class TelegramBot:
             msg_to_send = chunk
             sent = False
 
-            if parse_mode == "Markdown":
+            if parse_mode == "HTML":
                 try:
                     if hasattr(chat_or_msg, 'reply_text'):
-                        await chat_or_msg.reply_text(msg_to_send, parse_mode="Markdown",
+                        await chat_or_msg.reply_text(msg_to_send, parse_mode="HTML",
                                                      reply_to_message_id=reply_to)
                     else:
-                        await chat_or_msg.send_message(msg_to_send, parse_mode="Markdown")
+                        await chat_or_msg.send_message(msg_to_send, parse_mode="HTML")
                     sent = True
-                except Exception as md_err:
-                    logger.debug(f"Markdown parse failed, retrying without: {md_err}")
+                except Exception as html_err:
+                    logger.debug(f"HTML parse failed, retrying without: {html_err}")
                     try:
                         if hasattr(chat_or_msg, 'reply_text'):
                             await chat_or_msg.reply_text(msg_to_send, reply_to_message_id=reply_to)
@@ -62,7 +66,7 @@ class TelegramBot:
                         logger.error(f"Plain text send also failed: {plain_err}")
                         sent = False
 
-            if not sent and parse_mode != "Markdown":
+            if not sent and parse_mode != "HTML":
                 try:
                     if hasattr(chat_or_msg, 'reply_text'):
                         await chat_or_msg.reply_text(msg_to_send, reply_to_message_id=reply_to)
@@ -78,10 +82,15 @@ class TelegramBot:
 
         return all_success
 
-    async def safe_edit(self, message, text: str, parse_mode: str = "Markdown") -> bool:
-        """Edit a message with automatic markdown fallback."""
+    async def safe_edit(self, message, text: str, parse_mode: str = "HTML") -> bool:
+        """Edit a message with automatic HTML formatting."""
+        from app.services.telegram.formatter import format_message
+
+        # Auto-format all messages
+        text = format_message(text)
+
         try:
-            await message.edit_text(text, parse_mode="Markdown")
+            await message.edit_text(text, parse_mode="HTML")
             return True
         except Exception:
             try:

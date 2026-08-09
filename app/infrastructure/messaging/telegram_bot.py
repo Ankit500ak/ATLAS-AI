@@ -51,6 +51,11 @@ class TelegramBotImpl(TelegramBotService):
         return self.app
 
     async def send_message(self, chat_id: int, text: str, parse_mode: str = "HTML") -> bool:
+        from app.services.telegram.formatter import format_message
+
+        # Auto-format all messages
+        text = format_message(text)
+
         if self.app and self.app.bot:
             try:
                 await self.app.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
@@ -73,6 +78,10 @@ class TelegramBotImpl(TelegramBotService):
     async def safe_send(self, chat_or_msg, text: str, parse_mode: str = "HTML",
                         reply_to=None, retry: bool = True) -> bool:
         from app.utils.formatters import chunk_message
+        from app.services.telegram.formatter import format_message
+
+        # Auto-format all messages
+        text = format_message(text)
 
         chunks = chunk_message(text, max_length=self.MAX_MESSAGE_LENGTH - 50)
         all_success = True
@@ -118,6 +127,11 @@ class TelegramBotImpl(TelegramBotService):
         return all_success
 
     async def safe_edit(self, message, text: str, parse_mode: str = "HTML") -> bool:
+        from app.services.telegram.formatter import format_message
+
+        # Auto-format all messages
+        text = format_message(text)
+
         try:
             await message.edit_text(text, parse_mode="HTML")
             return True

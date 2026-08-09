@@ -7,6 +7,10 @@ from app.services.ai.formatters import (
     format_stock_analysis,
     format_watchlist_summary,
     format_market_overview,
+    format_morning_briefing,
+    format_evening_summary,
+    format_alert_triggered,
+    format_earnings_calendar,
 )
 import json
 import logging
@@ -62,6 +66,16 @@ class ResponseGenerator:
                 response_data["response"] = formatted
         elif intent == "market_overview" and financial_data:
             formatted = format_market_overview(financial_data)
+            response_data["response"] = formatted
+        elif intent == "daily_briefing" and financial_data:
+            formatted = format_morning_briefing(financial_data)
+            response_data["response"] = formatted
+        elif intent == "earnings_analysis" and financial_data:
+            if "earnings" in financial_data:
+                formatted = format_earnings_calendar(financial_data["earnings"])
+                response_data["response"] = formatted
+        elif intent == "price_alert" and financial_data:
+            formatted = format_alert_triggered(financial_data)
             response_data["response"] = formatted
         
         response_data["model_used"] = result["model"]

@@ -1,142 +1,107 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/-ATLAS%20AI-0A0E27?style=for-the-badge&labelColor=0A0E27" height="60" alt="Atlas AI"/>
+<br/>
 
-# 🧠 ATLAS AI
-### Your Financial Intelligence, Living Inside Telegram
+# ATLAS AI
 
-*Bloomberg terminal. SEC filings. News wires. Spreadsheets. One chat.*
+<img src="https://img.shields.io/badge/finance%20%C3%97%20AI%20%C3%97%20telegram-000000?style=flat-square" alt="tags"/>
+
+### The Bloomberg terminal, the SEC filings, the news wire, and the spreadsheet — collapsed into one Telegram thread.
 
 <br/>
 
-[![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Telegram](https://img.shields.io/badge/Telegram-Bot%20API-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://telegram.org)
-[![License](https://img.shields.io/badge/License-MIT-3FB950?style=for-the-badge)](LICENSE)
+<p>
+<img src="https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.13"/>
+<img src="https://img.shields.io/badge/FastAPI-0.104-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI"/>
+<img src="https://img.shields.io/badge/Telegram-Bot%20API-26A5E4?style=flat-square&logo=telegram&logoColor=white" alt="Telegram"/>
+<img src="https://img.shields.io/badge/PRs-welcome-3FB950?style=flat-square" alt="PRs welcome"/>
+</p>
 
-<br/>
-
-**[✨ Features](#-features)** · **[🏗️ Architecture](#️-architecture)** · **[🔄 How It Works](#-how-a-message-travels)** · **[📱 Interface](#-what-it-looks-like)** · **[🚀 Quick Start](#-quick-start)** · **[📡 API](#-api-reference)** · **[🐳 Deployment](#-deployment)**
+<sub>
+<a href="#features">Features</a> ·
+<a href="#architecture">Architecture</a> ·
+<a href="#how-it-works">How it works</a> ·
+<a href="#inside-the-conversation">Interface</a> ·
+<a href="#quick-start">Quick start</a> ·
+<a href="#api-reference">API</a> ·
+<a href="#deployment">Deployment</a> ·
+<a href="#contact--contributions">Contact</a>
+</sub>
 
 </div>
 
 <br/>
 
-> Finance professionals lose hours every day bouncing between terminals, filings, news tabs, and spreadsheets. **Atlas AI collapses all of it into one conversation** — the one you already have open, on the app you already use.
+> Finance professionals lose hours a day switching between terminals, filings, news tabs, and spreadsheets. Atlas AI removes the switching — it brings live market data, document intelligence, and proactive alerts into the chat app already open on your phone.
 
-Atlas isn't a Q&A bot. It's a financial analyst that:
+Atlas isn't a lookup bot. It's built to behave like an analyst who's paying attention:
 
-| | |
-|---|---|
-| 🧩 **Remembers** | your role, watchlist, and every past conversation |
-| 📡 **Reaches out** | with market-moving intelligence before you ask |
-| 🗣️ **Explains** | *why* something matters, not just *what* happened |
-| 📈 **Adapts** | its workflow to how you actually work |
+<div align="center">
+
+| | | |
+|:---:|:---:|:---:|
+| **Remembers** <br/> your role, watchlist, and history | **Reaches out** <br/> before you have to ask | **Explains** <br/> *why* it matters, not just *what* happened |
+
+</div>
 
 <br/>
 
----
-
-## ✨ Features
+## Features
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### 💬 Natural Conversation
-No commands. No syntax. Just talk to it.
-
-```
-You    → What's Apple's stock price?
-Atlas  → AAPL is trading at $195.89,
-         up 1.23% today...
-
-You    → How does it compare to Microsoft?
-Atlas  → Here's a side-by-side comparison...
-```
+**Natural conversation**
+No commands or syntax — plain English in, plain English out.
 
 </td>
 <td width="50%" valign="top">
 
-### 🔍 Deep Company Research
-Real-time data fused with AI-generated insight.
-
-- Live price, P/E, market cap, 52-wk range
-- Earnings history + upcoming dates
-- SEC filing search & summarization
-- News sentiment, distilled
+**Deep company research**
+Live price, P/E, market cap, 52-week range, earnings history, and SEC filing search in one reply.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### 👁️ Intelligent Watchlist
-```
-You    → Add AAPL, NVDA, TSLA to my
-         watchlist
-Atlas  → Done! Tracking 3 stocks.
-         I'll flag moves over 5%.
-```
+**Intelligent watchlist**
+Track what matters; Atlas flags any move over 5% without being asked.
 
 </td>
 <td width="50%" valign="top">
 
-### 🔔 Custom Price Alerts
-```
-You    → Alert me if TSLA drops
-         5% in a day
-Atlas  → Alert set for Tesla —
-         5% daily move.
-```
+**Custom price alerts**
+Threshold, direction, or percentage-move triggers — set once, notified instantly.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### 🌅 Daily Briefings
-Morning & evening market recaps, delivered — not requested.
-
-- Index snapshot (S&P · Dow · NASDAQ · VIX)
-- Your watchlist, overnight
-- Top financial headlines
-- Earnings landing this week
+**Daily briefings**
+A personalized morning and evening market summary, delivered on schedule.
 
 </td>
 <td width="50%" valign="top">
 
-### 📄 Document Intelligence
-```
-You    → [uploads annual_report.pdf]
-Atlas  → Processed! Ask me anything
-         about this document.
-
-You    → What were the key risks?
-Atlas  → The main risk factors are...
-```
+**Document intelligence**
+Upload a 10-K, earnings deck, or report — then ask it questions directly.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### 🎙️ Voice & Image Input
-Speak or screenshot — Atlas reads either.
-
-- **Voice** → transcribed & answered naturally
-- **Images** → charts, tables, screenshots parsed instantly
+**Voice & image input**
+Speak naturally or drop a chart screenshot; Atlas reads either.
 
 </td>
 <td width="50%" valign="top">
 
-### 📡 Proactive Intelligence
-Atlas watches the market so you don't have to.
-
-- Sharp moves on your watchlist
-- Earnings-date reminders
-- Breaking news that moves your names
-- Smart follow-ups from past chats
+**Proactive intelligence**
+Watchlist swings, earnings reminders, and breaking news — surfaced, not requested.
 
 </td>
 </tr>
@@ -144,276 +109,182 @@ Atlas watches the market so you don't have to.
 
 <br/>
 
----
+## Architecture
 
-## 🏗️ Architecture
+Atlas follows **Domain-Driven Design**: four layers, each with one responsibility, dependencies pointing strictly inward.
 
-Atlas is built on **Domain-Driven Design** — four clean layers, each with one job, talking only to the layer beside it.
+```mermaid
+flowchart TB
+    subgraph L1["TELEGRAM BOT LAYER"]
+        direction LR
+        T1["Text Handler"] ~~~ T2["Voice Handler"] ~~~ T3["Photo Handler"] ~~~ T4["Document Handler"]
+    end
 
-```
-╔══════════════════════════════════════════════════════════════════════════╗
-║  📱  TELEGRAM BOT LAYER                                                   ║
-║ ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐            ║
-║ │   TEXT    │   │  VOICE 🎙️  │   │  PHOTO 📷  │   │ DOCUMENT 📄│            ║
-║ │  Handler  │   │  Handler  │   │  Handler  │   │  Handler  │            ║
-║ └─────┬─────┘   └─────┬─────┘   └─────┬─────┘   └─────┬─────┘            ║
-║       └───────────────┴───────────────┴───────────────┘                 ║
-╚══════════════════════════════════╤════════════════════════════════════════╝
-                                    │  raw user input
-╔═══════════════════════════════════▼═══════════════════════════════════════╗
-║  ⚙️  APPLICATION LAYER                                                     ║
-║ ┌─────────────────────────────────────────────────────────────────────┐ ║
-║ │                        🧠 AI ORCHESTRATOR                            │ ║
-║ │  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐            │ ║
-║ │  │   INTENT     │──▶│   CONTEXT    │──▶│   RESPONSE   │            │ ║
-║ │  │  Classifier  │   │   Manager    │   │  Generator   │            │ ║
-║ │  └──────────────┘   └──────────────┘   └──────────────┘            │ ║
-║ └─────────────────────────────────────────────────────────────────────┘ ║
-║      │                        │                        │                 ║
-║      ▼                        ▼                        ▼                 ║
-║ ┌───────────┐          ┌───────────┐           ┌───────────┐            ║
-║ │Onboarding │          │ Watchlist │           │   Alert   │            ║
-║ │ Use Case  │          │ Use Case  │           │ Use Case  │            ║
-║ └───────────┘          └───────────┘           └───────────┘            ║
-╚══════════════════════════════════╤════════════════════════════════════════╝
-                                    │  domain calls
-╔═══════════════════════════════════▼═══════════════════════════════════════╗
-║  🧬  DOMAIN LAYER   (pure abstractions — no I/O, no frameworks)           ║
-║ ┌────────────────┐   ┌────────────────┐   ┌────────────────┐            ║
-║ │    Abstract     │   │    Abstract     │   │    Abstract     │            ║
-║ │    Services      │   │  Repositories    │   │     Models       │            ║
-║ └────────────────┘   └────────────────┘   └────────────────┘            ║
-╚══════════════════════════════════╤════════════════════════════════════════╝
-                                    │  implemented by
-╔═══════════════════════════════════▼═══════════════════════════════════════╗
-║  🔌  INFRASTRUCTURE LAYER                                                  ║
-║ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  ║
-║ │ Stock   │ │  News   │ │ Market  │ │   SEC   │ │  Cache  │ │   AI    │  ║
-║ │Service │ │Service │ │Service │ │  EDGAR  │ │(Redis) │ │(MiMo) │  ║
-║ └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘  ║
-║ ┌─────────┐ ┌───────────────┐                                            ║
-║ │Database │ │   Telegram    │                                            ║
-║ │(SQLite)│ │      Bot        │                                            ║
-║ └─────────┘ └───────────────┘                                            ║
-╚═════════════════════════════════════════════════════════════════════════╝
+    subgraph L2["APPLICATION LAYER"]
+        direction TB
+        subgraph ORCH["AI Orchestrator"]
+            direction LR
+            IC["Intent Classifier"] --> CM["Context Manager"] --> RG["Response Generator"]
+        end
+        subgraph UC[" "]
+            direction LR
+            U1["Onboarding Use Case"] ~~~ U2["Watchlist Use Case"] ~~~ U3["Alert Use Case"]
+        end
+        ORCH --> UC
+    end
+
+    subgraph L3["DOMAIN LAYER — pure abstractions"]
+        direction LR
+        D1["Abstract Services"] ~~~ D2["Abstract Repositories"] ~~~ D3["Abstract Models"]
+    end
+
+    subgraph L4["INFRASTRUCTURE LAYER"]
+        direction LR
+        I1["Stock Service"] ~~~ I2["News Service"] ~~~ I3["Market Service"] ~~~ I4["SEC EDGAR"]
+        I5["Cache · Redis"] ~~~ I6["AI · MiMo"] ~~~ I7["Database · SQLite"] ~~~ I8["Telegram Bot"]
+    end
+
+    L1 --> L2 --> L3 --> L4
+
+    style L1 fill:#0A0E27,color:#fff,stroke:#26A5E4,stroke-width:2px
+    style L2 fill:#12163a,color:#fff,stroke:#7c5cff,stroke-width:2px
+    style L3 fill:#1a1f4b,color:#fff,stroke:#3FB950,stroke-width:2px
+    style L4 fill:#0A0E27,color:#fff,stroke:#f0883e,stroke-width:2px
 ```
 
-**Rule of the layers:** dependencies point *inward*. Infrastructure knows about Domain; Domain knows nothing about Infrastructure. Swap Redis for Memcached, or MiMo for GPT-4, and the Application layer never notices.
+**The rule that keeps this maintainable:** infrastructure knows about the domain layer; the domain layer knows nothing about infrastructure. Swap Redis for Memcached, or MiMo for GPT-4, and the application layer never has to change.
 
-<br/>
-
-### 🧩 Key Components
+### Key components
 
 | Component | Role |
 |---|---|
-| 🧠 **AI Orchestrator** | Coordinates intent classification, context assembly, and response generation end-to-end |
-| 🎯 **Intent Classifier** | Hybrid pipeline — keywords → regex → AI fallback, cheapest check first |
-| 🗂️ **Context Manager** | Maintains rolling working memory + compressed conversation history |
-| ✍️ **Response Generator** | Role-adaptive prompting with grounded financial reasoning |
-| 🌅 **Briefing Compiler** | Assembles the personalized morning / evening market brief |
-| ⏱️ **Alert Monitor** | Background watcher polling live prices against user-set triggers |
-| 📰 **News Aggregator** | Multi-source RSS ingestion enriched with sentiment scoring |
+| **AI Orchestrator** | Coordinates intent classification, context assembly, and response generation end-to-end |
+| **Intent Classifier** | Hybrid pipeline — keyword match → regex → AI fallback, cheapest check first |
+| **Context Manager** | Maintains rolling working memory plus compressed conversation history |
+| **Response Generator** | Role-adaptive prompting with grounded financial reasoning |
+| **Briefing Compiler** | Assembles the personalized morning and evening market brief |
+| **Alert Monitor** | Background watcher polling live prices against user-set triggers |
+| **News Aggregator** | Multi-source RSS ingestion enriched with sentiment scoring |
 
 <br/>
 
----
+## How it works
 
-## 🔄 How a Message Travels
+**Foreground — a user request, end to end:**
 
-What actually happens between you hitting *send* and Atlas replying:
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant H as Text Handler
+    participant IC as Intent Classifier
+    participant CM as Context Manager
+    participant UC as Alert Use Case
+    participant DB as Database
+    participant RG as Response Generator
 
-```
- YOU (Telegram)                                                
-    │  "Alert me if TSLA drops 5%"                             
-    ▼                                                          
- ① TEXT HANDLER            captures the raw message              
-    │                                                          
-    ▼                                                          
- ② INTENT CLASSIFIER       keyword/regex hit → "create_alert"    
-    │                      (AI fallback only if ambiguous)       
-    ▼                                                          
- ③ CONTEXT MANAGER         pulls user profile + watchlist + history
-    │                                                          
-    ▼                                                          
- ④ ALERT USE CASE          validates ticker, threshold, direction 
-    │                                                          
-    ▼                                                          
- ⑤ INFRASTRUCTURE          Stock Service confirms TSLA is live     
-    │                      Database persists the new alert rule    
-    ▼                                                          
- ⑥ RESPONSE GENERATOR      drafts a natural-language confirmation  
-    │                                                          
-    ▼                                                          
- ATLAS (Telegram)          "Alert set for Tesla — 5% daily move." 
+    U->>H: "Alert me if TSLA drops 5%"
+    H->>IC: classify intent
+    IC-->>H: intent = create_alert
+    H->>CM: load user profile + watchlist
+    CM-->>H: context
+    H->>UC: create alert(TSLA, -5%)
+    UC->>DB: persist alert rule
+    DB-->>UC: confirmed
+    UC->>RG: draft confirmation
+    RG-->>U: "Alert set for Tesla — 5% daily move."
 ```
 
-**Meanwhile, in the background — every 60 seconds:**
+**Background — every 60 seconds, unprompted:**
 
-```
-⏱️  Alert Monitor wakes up
-      │
-      ▼
-📡  Fetches live prices for every active alert (Stock Service)
-      │
-      ▼
-🔎  Compares price → threshold
-      │
-      ├── not triggered ──▶ sleep, check again in 60s
-      │
-      └── triggered ──▶ 🧠 Response Generator drafts the alert
-                              │
-                              ▼
-                         📲 Pushed straight to your Telegram
+```mermaid
+flowchart LR
+    A["Alert Monitor wakes"] --> B["Fetch live prices\nfor active alerts"]
+    B --> C{"Threshold\ncrossed?"}
+    C -- no --> A
+    C -- yes --> D["Response Generator\ndrafts the alert"]
+    D --> E["Pushed to Telegram"]
+
+    style A fill:#0A0E27,color:#fff,stroke:#26A5E4
+    style B fill:#0A0E27,color:#fff,stroke:#26A5E4
+    style C fill:#12163a,color:#fff,stroke:#7c5cff
+    style D fill:#1a1f4b,color:#fff,stroke:#3FB950
+    style E fill:#1a1f4b,color:#fff,stroke:#3FB950
 ```
 
 <br/>
 
----
+## Inside the conversation
 
-## 📱 What It Looks Like
+Atlas has no separate dashboard — the interface is the chat itself.
 
-Atlas has no separate app to download and no dashboard to learn — the **GUI is the chat you already have open**. No new UI to onboard onto, no context switch, no second window.
+**Morning briefing**
 
-<div align="center">
-<sub><b>Morning briefing → follow-up comparison, inside one thread</b></sub>
-</div>
+> **Atlas** · 8:00 AM
+> Good morning. Here's your brief for Monday, August 10.
+>
+> **Markets** — S&P 500 5,234.18 (+0.45%) · NASDAQ 16,428.82 (+0.83%) · VIX 14.20 (−2.10%)
+> **Watchlist** — AAPL $195.89 (+1.23%) · NVDA $875.28 (+3.20%) · TSLA $241.10 (−0.44%)
+> **Top story** — Fed signals a potential rate cut
+> **This week** — NVDA reports Thursday, after close
 
-```
-┌───────────────────────────────────────────┐
-│  ‹   🧠  Atlas AI                🟢 online │
-│      Financial Intelligence                │
-├───────────────────────────────────────────┤
-│                                             │
-│  ╭───────────────────────────────────╮     │
-│  │ ☀️  Good morning — here's your      │     │
-│  │     brief for Mon, Aug 10           │     │
-│  │  ─────────────────────────────      │     │
-│  │  🟢 S&P 500    5,234.18   +0.45%    │     │
-│  │  🟢 NASDAQ    16,428.82   +0.83%    │     │
-│  │  🔴 VIX           14.20   −2.10%    │     │
-│  │  ─────────────────────────────      │     │
-│  │  📋 YOUR WATCHLIST                   │     │
-│  │   AAPL   $195.89     ▲ +1.23%       │     │
-│  │   NVDA   $875.28     ▲ +3.20%       │     │
-│  │   TSLA   $241.10     ▼ −0.44%       │     │
-│  │  ─────────────────────────────      │     │
-│  │  📰 TOP STORY                        │     │
-│  │   Fed signals potential rate cut    │     │
-│  │  ─────────────────────────────      │     │
-│  │  📅 THIS WEEK                        │     │
-│  │   NVDA reports Thu, after close     │     │
-│  ╰───────────────────────────────────╯ 8:00 │
-│                                             │
-│                    ╭─────────────────────╮ │
-│                    │ How's that vs MSFT? │ │
-│                    ╰─────────────────────╯ │
-│                                       8:03  │
-│                                             │
-│  ╭───────────────────────────────────╮     │
-│  │ 📊  NVDA  ⇄  MSFT                   │     │
-│  │  ─────────────────────────────      │     │
-│  │              NVDA         MSFT      │     │
-│  │   Price     $875.28     $420.55     │     │
-│  │   P/E         72.4         37.2     │     │
-│  │   Mkt Cap   $2.15T       $3.10T     │     │
-│  │  ─────────────────────────────      │     │
-│  │  Microsoft leads on cloud scale     │     │
-│  │  (Azure); NVIDIA leads on AI        │     │
-│  │  demand growth...                   │     │
-│  ╰───────────────────────────────────╯ 8:03 │
-│                                             │
-├───────────────────────────────────────────┤
-│   🎙️     📎     Type a message…      ➤     │
-└───────────────────────────────────────────┘
-```
+> **You** · 8:03 AM
+> How's that vs MSFT?
 
-<div align="center">
-<sub><b>A proactive alert firing mid-conversation — no prompt required</b></sub>
-</div>
+> **Atlas** · 8:03 AM
+> **NVDA vs. MSFT**
+>
+> | | NVDA | MSFT |
+> |---|---|---|
+> | Price | $875.28 | $420.55 |
+> | P/E | 72.4 | 37.2 |
+> | Market cap | $2.15T | $3.10T |
+>
+> Microsoft leads on cloud scale via Azure; NVIDIA leads on AI-driven demand growth.
 
-```
-┌───────────────────────────────────────────┐
-│  ‹   🧠  Atlas AI                🟢 online │
-├───────────────────────────────────────────┤
-│                                             │
-│  ╭───────────────────────────────────╮     │
-│  │ 🔔  ALERT TRIGGERED                  │     │
-│  │  ─────────────────────────────      │     │
-│  │  TSLA just dropped 5.1% today —     │     │
-│  │  now trading at $228.90.            │     │
-│  │                                       │     │
-│  │  Move looks tied to a delivery      │     │
-│  │  guidance cut announced this AM.    │     │
-│  │                                       │     │
-│  │  Want the full story, or should     │     │
-│  │  I check your other positions?      │     │
-│  ╰───────────────────────────────────╯ 11:42│
-│                                             │
-├───────────────────────────────────────────┤
-│   🎙️     📎     Type a message…      ➤     │
-└───────────────────────────────────────────┘
-```
+**An alert, arriving without being asked**
 
-### 🎨 Visual language
+> **Atlas** · 11:42 AM
+> **Alert triggered — TSLA**
+> Down 5.1% today, now trading at $228.90. The move looks tied to a delivery-guidance cut announced this morning.
+>
+> Want the full story, or should I check your other positions?
 
-Atlas keeps every message legible at a glance — color and iconography carry meaning consistently, so you can skim a busy morning brief in seconds.
+### Onboarding in six turns
 
-| Signal | Meaning |
-|---|---|
-| 🟢 / ▲ | Price or index up |
-| 🔴 / ▼ | Price or index down |
-| 📋 | Watchlist block |
-| 📰 | News / headline |
-| 📅 | Earnings / calendar event |
-| 🔔 | Proactive alert, unprompted |
-| 📊 | Comparison / analysis block |
-| ╭─╮ ╰─╯ | Atlas message bubble |
-
-### 🧭 Onboarding, in six turns
-
-```
-①  "I'm an investor"          ─────▶  role selection
-②  "Tech, Healthcare, Finance" ────▶  sector interests
-③  "Add AAPL, NVDA, TSLA"      ────▶  watchlist seeded
-④  "Earnings + market news"    ────▶  notification prefs
-⑤  "8:00 AM daily"             ────▶  briefing schedule
-⑥  "Connect Google"  (optional)────▶  Gmail · Calendar · Drive · Sheets
-```
+| Step | You say | Atlas sets up |
+|:---:|---|---|
+| 1 | *"I'm an investor"* | Role selection |
+| 2 | *"Tech, Healthcare, Finance"* | Sector interests |
+| 3 | *"Add AAPL, NVDA, TSLA"* | Watchlist seeded |
+| 4 | *"Earnings + market news"* | Notification preferences |
+| 5 | *"8:00 AM daily"* | Briefing schedule |
+| 6 | *"Connect Google"* (optional) | Gmail · Calendar · Drive · Sheets |
 
 <br/>
 
----
-
-## 🛠️ Tech Stack
+## Tech stack
 
 | Layer | Technology |
 |---|---|
-| 🐍 **Backend** | Python 3.13 + FastAPI |
-| 🧠 **AI Models** | MiMo *(primary)* → OpenAI GPT-4 → Ollama *(local fallback)* |
-| 🗄️ **Database** | SQLite + SQLAlchemy *(async)* |
-| ⚡ **Cache** | In-memory L1 + Redis L2 |
-| 📈 **Financial Data** | Yahoo Finance (`yfinance`) + SEC EDGAR |
-| 📰 **News** | RSS — Yahoo Finance, MarketWatch, Investing.com |
-| 💬 **Telegram** | `python-telegram-bot` v20 |
-| ⏰ **Scheduling** | APScheduler *(cron-based)* |
-| 🎙️ **Voice** | OpenAI Whisper + local fallback |
-| 📄 **Documents** | PyPDF2 + pandas |
+| Backend | Python 3.13 + FastAPI |
+| AI models | MiMo (primary) → OpenAI GPT-4 → Ollama (local fallback) |
+| Database | SQLite + SQLAlchemy (async) |
+| Cache | In-memory L1 + Redis L2 |
+| Financial data | Yahoo Finance (`yfinance`) + SEC EDGAR |
+| News | RSS — Yahoo Finance, MarketWatch, Investing.com |
+| Telegram | `python-telegram-bot` v20 |
+| Scheduling | APScheduler (cron-based) |
+| Voice | OpenAI Whisper + local fallback |
+| Documents | PyPDF2 + pandas |
 
 <br/>
 
----
+## Quick start
 
-## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.13+
-- Telegram Bot Token from [@BotFather](https://t.me/BotFather)
-- OpenAI API key *(optional — MiMo is free)*
-
-### Installation
+**Prerequisites** — Python 3.13+, a Telegram bot token from [@BotFather](https://t.me/BotFather), and optionally an OpenAI API key (MiMo runs free by default).
 
 ```bash
-# Clone the repository
+# Clone and enter the repository
 git clone https://github.com/Ankit500ak/ATLAS-AI.git
 cd ATLAS-AI
 
@@ -429,8 +300,6 @@ cp .env.example .env
 # now edit .env with your keys
 ```
 
-### Configuration
-
 ```env
 # Required
 TELEGRAM_BOT_TOKEN=your_bot_token_here
@@ -444,42 +313,34 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-### Run
-
 ```bash
 python run.py
 ```
 
-Atlas starts polling Telegram immediately. Open the app, find your bot, and say hello. 👋
+Atlas starts polling Telegram immediately — open the app, find your bot, and say hello.
 
 <br/>
 
----
-
-## 📡 API Reference
-
-Atlas exposes a full REST surface for programmatic access.
+## API reference
 
 | Endpoint | Method | Description |
-|---|---|---|
-| `/` | `GET` | Root endpoint |
-| `/health` | `GET` | Health check + background task status |
-| `/api/v1/status` | `GET` | Operational status |
-| `/api/v1/users` | `POST` | Create user |
-| `/api/v1/users/{id}` | `GET` | Get user profile |
-| `/api/v1/watchlist/{user_id}` | `GET` | Get user watchlist |
-| `/api/v1/alerts/{user_id}` | `GET` | Get active alerts |
-| `/api/v1/market/status` | `GET` | Market status |
-| `/api/v1/market/indices` | `GET` | Market indices |
-| `/api/v1/stocks/{symbol}` | `GET` | Stock data |
-| `/api/v1/news/market` | `GET` | Market news |
-| `/api/v1/news/stock/{symbol}` | `GET` | Stock-specific news |
-| `/api/v1/earnings/upcoming` | `GET` | Upcoming earnings |
-| `/api/v1/sec/search/{ticker}` | `GET` | SEC filing search |
-| `/api/v1/google/auth-url` | `GET` | Google OAuth URL |
-| `/api/v1/google/gmail` | `GET` | Gmail messages |
-
-**Authentication**
+|---|:---:|---|
+| `/` | GET | Root endpoint |
+| `/health` | GET | Health check + background task status |
+| `/api/v1/status` | GET | Operational status |
+| `/api/v1/users` | POST | Create user |
+| `/api/v1/users/{id}` | GET | Get user profile |
+| `/api/v1/watchlist/{user_id}` | GET | Get user watchlist |
+| `/api/v1/alerts/{user_id}` | GET | Get active alerts |
+| `/api/v1/market/status` | GET | Market status |
+| `/api/v1/market/indices` | GET | Market indices |
+| `/api/v1/stocks/{symbol}` | GET | Stock data |
+| `/api/v1/news/market` | GET | Market news |
+| `/api/v1/news/stock/{symbol}` | GET | Stock-specific news |
+| `/api/v1/earnings/upcoming` | GET | Upcoming earnings |
+| `/api/v1/sec/search/{ticker}` | GET | SEC filing search |
+| `/api/v1/google/auth-url` | GET | Google OAuth URL |
+| `/api/v1/google/gmail` | GET | Gmail messages |
 
 ```bash
 curl -H "Authorization: Bearer your_secret_key" \
@@ -490,41 +351,48 @@ curl -H "Authorization: Bearer your_secret_key" \
 
 <br/>
 
----
+## Background tasks
 
-## ⏱️ Background Tasks
-
-Seven loops keep Atlas proactive around the clock:
+Seven loops keep Atlas proactive around the clock.
 
 | Task | Interval | Purpose |
-|---|---|---|
-| 🔔 Alert Monitor | 60s | Check price alerts during market hours |
-| 📰 News Aggregator | 15 min | Fetch & enrich news from RSS feeds |
-| 📊 Market Status | 5 min | Refresh market open/closed state |
-| 👤 Profile Updates | 1 hr | Update user interest profiles |
-| 👁️ Watchlist Monitor | 15 min | Detect moves >5% on tracked tickers |
-| 📅 Earnings Reminders | Daily | Notify on upcoming earnings |
-| 🌆 Evening Summary | 4:05 PM ET | Send the evening market recap |
+|---|:---:|---|
+| Alert Monitor | 60s | Check price alerts during market hours |
+| News Aggregator | 15 min | Fetch and enrich news from RSS feeds |
+| Market Status | 5 min | Refresh market open/closed state |
+| Profile Updates | 1 hr | Update user interest profiles |
+| Watchlist Monitor | 15 min | Detect moves over 5% on tracked tickers |
+| Earnings Reminders | Daily | Notify on upcoming earnings |
+| Evening Summary | 4:05 PM ET | Send the evening market recap |
 
 <br/>
 
----
+## Deployment
 
-## 🐳 Deployment
+<table>
+<tr>
+<td width="50%" valign="top">
 
-### Docker
+**Docker**
 ```bash
 docker-compose up -d
 ```
 
-### Heroku
+</td>
+<td width="50%" valign="top">
+
+**Heroku**
 ```bash
 heroku create atlas-ai-bot
 git push heroku main
 ```
 
-### Production environment
+</td>
+</tr>
+</table>
+
 ```env
+# Production environment
 APP_ENV=production
 DATABASE_URL=postgresql://user:pass@host/db
 REDIS_URL=redis://host:6379/0
@@ -533,142 +401,111 @@ SECRET_KEY=your_production_secret
 
 <br/>
 
----
-
-## 🧪 Testing
+## Testing
 
 ```bash
-# Run all tests
-pytest tests/ -v
-
-# Run a specific file
-pytest tests/unit/test_core.py -v
-
-# Run with coverage
-pytest tests/ --cov=app --cov-report=html
+pytest tests/ -v                                  # run everything
+pytest tests/unit/test_core.py -v                  # run one file
+pytest tests/ --cov=app --cov-report=html           # with coverage
 ```
 
 <br/>
 
----
-
-## 📁 Project Structure
+## Project structure
 
 ```
 ATLAS-AI/
 ├── app/
-│   ├── main.py                    # FastAPI application entry point
-│   ├── config.py                  # Pydantic settings
-│   ├── database.py                # Async SQLAlchemy setup
-│   ├── models/                    # SQLAlchemy models
-│   ├── schemas/                   # Pydantic schemas
+│   ├── main.py                 # FastAPI application entry point
+│   ├── config.py                # Pydantic settings
+│   ├── database.py              # Async SQLAlchemy setup
+│   ├── models/                  # SQLAlchemy models
+│   ├── schemas/                 # Pydantic schemas
 │   │
-│   ├── domain/                    # 🧬 Domain layer
-│   │   ├── services/              #   abstract service interfaces
-│   │   └── repositories/          #   abstract repository interfaces
+│   ├── domain/                  # Domain layer
+│   │   ├── services/             #   abstract service interfaces
+│   │   └── repositories/         #   abstract repository interfaces
 │   │
-│   ├── infrastructure/            # 🔌 Infrastructure layer
-│   │   ├── ai/                    #   MiMo / OpenAI / Ollama
-│   │   ├── database/              #   repository implementations
-│   │   ├── financial/             #   Stock, News, Market, SEC services
-│   │   └── messaging/             #   Telegram bot implementation
+│   ├── infrastructure/          # Infrastructure layer
+│   │   ├── ai/                   #   MiMo / OpenAI / Ollama
+│   │   ├── database/             #   repository implementations
+│   │   ├── financial/            #   Stock, News, Market, SEC services
+│   │   └── messaging/            #   Telegram bot implementation
 │   │
-│   ├── services/                  # ⚙️ Business logic
-│   │   ├── ai/                    #   intent classifier, orchestrator, prompts
-│   │   ├── background/            #   task runner, scheduler
-│   │   ├── conversation/          #   context manager, memory
-│   │   ├── document/              #   PDF / text / CSV processor
-│   │   ├── financial/             #   financial data services
-│   │   ├── integrations/          #   Google Workspace integration
-│   │   ├── personalization/       #   user profiler, watchlist, suggestions
-│   │   └── telegram/              #   voice processor, alternative bot
+│   ├── services/                # Business logic
+│   │   ├── ai/                   #   intent classifier, orchestrator, prompts
+│   │   ├── background/           #   task runner, scheduler
+│   │   ├── conversation/         #   context manager, memory
+│   │   ├── document/             #   PDF / text / CSV processor
+│   │   ├── financial/            #   financial data services
+│   │   ├── integrations/         #   Google Workspace integration
+│   │   ├── personalization/      #   user profiler, watchlist, suggestions
+│   │   └── telegram/             #   voice processor, alternative bot
 │   │
-│   ├── application/                # 🧩 Application layer
-│   │   ├── use_cases/              #   message processor use case
-│   │   └── dto/                    #   data transfer objects
+│   ├── application/             # Application layer
+│   │   ├── use_cases/            #   message processor use case
+│   │   └── dto/                  #   data transfer objects
 │   │
-│   ├── api/v1/                    # 📡 REST API endpoints
-│   ├── core/                      # Cross-cutting concerns
-│   │   ├── di/                    #   dependency injection container
-│   │   ├── security.py            #   API key authentication
+│   ├── api/v1/                  # REST API endpoints
+│   ├── core/                    # Cross-cutting concerns
+│   │   ├── di/                   #   dependency injection container
+│   │   ├── security.py           #   API key authentication
 │   │   ├── rate_limiter.py        #   rate limiting middleware
-│   │   └── exceptions.py          #   custom exceptions
-│   └── utils/                     # Formatters, validators
+│   │   └── exceptions.py         #   custom exceptions
+│   └── utils/                   # Formatters, validators
 │
-├── tests/                         # Unit and integration tests
-├── requirements.txt                # Python dependencies
-├── Dockerfile                      # Container configuration
-├── docker-compose.yml              # Docker Compose setup
-├── pyproject.toml                  # Project configuration
-└── run.py                          # Application launcher
+├── tests/                       # Unit and integration tests
+├── requirements.txt              # Python dependencies
+├── Dockerfile                    # Container configuration
+├── docker-compose.yml             # Docker Compose setup
+├── pyproject.toml                # Project configuration
+└── run.py                        # Application launcher
 ```
+
+<br/>
+
+## Contributing
+
+```bash
+git checkout -b feature/amazing-feature   # 1. branch
+git commit -m "Add amazing feature"       # 2. commit
+git push origin feature/amazing-feature   # 3. push
+```
+Then open a Pull Request against `main`.
 
 <br/>
 
 ---
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch — `git checkout -b feature/amazing-feature`
-3. Commit your changes — `git commit -m 'Add amazing feature'`
-4. Push the branch — `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
 <br/>
 
----
+## Thank you
 
-## 💛 Thank You
+Atlas AI started as a hackathon idea and grew into something worth maintaining properly. If you've read this far, run the bot, filed an issue, or starred the repo — thank you. Projects like this move because people show up for them.
 
-Atlas AI started as a hackathon idea and grew into something we're genuinely proud of. If you've read this far, tried the bot, filed an issue, or even just starred the repo — **thank you**. Projects like this move forward because people show up for them.
+## Contact & contributions
 
 <div align="center">
 
-```
-   ┌─────────────────────────────────────────┐
-   │                                           │
-   │      🧠  Thanks for building with us      │
-   │                                           │
-   │   Every PR, issue, and idea makes         │
-   │        Atlas a little smarter.            │
-   │                                           │
-   └─────────────────────────────────────────┘
-```
+<p>
+<a href="https://github.com/Ankit500ak/ATLAS-AI/issues"><img src="https://img.shields.io/badge/Issues-Report%20a%20Bug-EA4335?style=flat-square&logo=github&logoColor=white" alt="Issues"/></a>
+<a href="https://github.com/Ankit500ak/ATLAS-AI/discussions"><img src="https://img.shields.io/badge/Discussions-Ask%20a%20Question-6E40C9?style=flat-square&logo=github&logoColor=white" alt="Discussions"/></a>
+<a href="https://github.com/Ankit500ak/ATLAS-AI/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-3FB950?style=flat-square&logo=git&logoColor=white" alt="PRs Welcome"/></a>
+</p>
+
+**Maintainer** — [@Ankit500ak](https://github.com/Ankit500ak)
 
 </div>
 
-<br/>
-
-## 📬 Contact & Contributions
-
-Want to contribute, report a bug, or just talk shop about financial AI? Reach out — we'd love to hear from you.
-
-<div align="center">
-
-[![GitHub Issues](https://img.shields.io/badge/Issues-Report%20a%20Bug-EA4335?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ankit500ak/ATLAS-AI/issues)
-[![GitHub Discussions](https://img.shields.io/badge/Discussions-Ask%20a%20Question-6E40C9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ankit500ak/ATLAS-AI/discussions)
-[![Pull Requests](https://img.shields.io/badge/PRs-Welcome-3FB950?style=for-the-badge&logo=git&logoColor=white)](https://github.com/Ankit500ak/ATLAS-AI/pulls)
-
-**Maintainer:** [@Ankit500ak](https://github.com/Ankit500ak)
-
-</div>
-
-Contribution paths that are always welcome:
-
-| Type | Where to start |
+| Want to... | Start here |
 |---|---|
-| 🐛 **Bug reports** | Open an [issue](https://github.com/Ankit500ak/ATLAS-AI/issues) with steps to reproduce |
-| 💡 **Feature ideas** | Start a [discussion](https://github.com/Ankit500ak/ATLAS-AI/discussions) before opening a PR |
-| 🔧 **Code contributions** | Fork → branch → PR (see steps above) |
-| 📖 **Docs & examples** | Typos, clarity fixes, and new usage examples always help |
+| Report a bug | Open an [issue](https://github.com/Ankit500ak/ATLAS-AI/issues) with steps to reproduce |
+| Propose a feature | Start a [discussion](https://github.com/Ankit500ak/ATLAS-AI/discussions) before opening a PR |
+| Contribute code | Fork → branch → PR, as above |
+| Improve the docs | Typos, clarity fixes, and new examples are always welcome |
 
 <br/>
 
 <div align="center">
-
-**Built with passion for the Atlas AI Hackathon** 🚀
-
-<sub>Atlas AI · Finance, at the speed of conversation</sub>
-
+<sub>Built with passion for the Atlas AI Hackathon · Finance, at the speed of conversation</sub>
 </div>

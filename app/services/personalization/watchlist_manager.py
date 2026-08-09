@@ -19,9 +19,17 @@ class WatchlistManager:
 
         if any(word in message_lower for word in ["remove", "delete", "stop", "untrack"]):
             action = "remove"
-        elif any(word in message_lower for word in ["add", "track", "follow", "watch"]):
-            action = "add"
-        elif any(word in message_lower for word in ["list", "show", "what are"]):
+        elif any(word in message_lower for word in ["add", "track", "follow", "watch", "stocks", "portfolio", "list"]):
+            # Check if it's a "show me my list" vs "add to list"
+            if any(word in message_lower for word in ["list", "show", "what are", "which", "my"]):
+                # Could be "show my list" or "add to my list"
+                if any(word in message_lower for word in ["add", "track", "follow", "watch"]):
+                    action = "add"
+                else:
+                    action = "list"
+            else:
+                action = "add"
+        elif any(word in message_lower for word in ["list", "show", "what are", "which"]):
             action = "list"
         else:
             return {"action": None}
@@ -52,9 +60,10 @@ class WatchlistManager:
             "AFTER", "ABOVE", "BELOW", "BETWEEN", "UNDER", "OVER",
             "ABOUT", "AGAIN", "ALONG", "AROUND", "BEHIND", "BESIDE",
             "BEYOND", "INSIDE", "OUTSIDE", "NEAR", "TOWARD",
+            "STOCKS", "STOCK", "PORTFOLIO", "WATCHLIST", "MY",
         }
-        ticker_pattern = r'\b([A-Z]{2,5})\b'
-        tickers = [t for t in re.findall(ticker_pattern, message.upper()) if t not in skip_words]
+        ticker_pattern = r'\b([A-Za-z]{2,5})\b'
+        tickers = [t.upper() for t in re.findall(ticker_pattern, message) if t.upper() not in skip_words]
 
         known_names = {
             "apple": "AAPL", "microsoft": "MSFT", "google": "GOOGL", "alphabet": "GOOGL",

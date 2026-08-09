@@ -210,21 +210,66 @@ class TelegramBot:
                     return
 
                 from app.services.personalization.watchlist_manager import watchlist_manager
-                watchlist_cmd = await watchlist_manager.parse_watchlist_command(message)
+                from app.services.ai.service import AIService
+                import json
 
-                if watchlist_cmd["action"] == "add" and watchlist_cmd.get("tickers"):
+                ai_service = AIService()
+                
+                intent_prompt = f"""Analyze this user message and extract the watchlist action and stock symbols.
+
+User message: "{message}"
+
+Respond with ONLY a JSON object (no markdown, no code blocks):
+{{
+    "action": "add" | "remove" | "list" | "none",
+    "tickers": ["NVDA", "AAPL"],
+    "explanation": "brief reason"
+}}
+
+Rules:
+- "add", "track", "follow", "watch", "include", "invest in", "buy" → action: "add"
+- "remove", "delete", "stop tracking", "untrack", "sell" → action: "remove"  
+- "list", "show", "what are", "which", "my stocks", "portfolio", "watchlist" → action: "list"
+- If user just asks about a stock (price, analysis) but doesn't explicitly add → action: "none"
+- Convert company names to ticker symbols (NVIDIA→NVDA, Apple→AAPL, Tesla→TSLA, etc.)
+- Include ALL tickers mentioned"""
+
+                intent_response = await ai_service.generate(intent_prompt)
+                intent_content = intent_response.get("content", "")
+                
+                try:
+                    intent_data = json.loads(intent_content.strip())
+                    action = intent_data.get("action", "none")
+                    tickers = [t.upper() for t in intent_data.get("tickers", [])]
+                except:
+                    action = "none"
+                    tickers = []
+
+                if action == "add" and tickers:
                     res = await watchlist_manager.add_to_watchlist(
-                        user.id, watchlist_cmd["tickers"], db
+                        user.id, tickers, db
                     )
                     reply = await watchlist_manager.format_watchlist_response(res, "add")
                     await self.safe_edit(thinking_msg, reply)
                     return
 
-                if watchlist_cmd["action"] == "remove" and watchlist_cmd.get("tickers"):
+                if action == "remove" and tickers:
                     res = await watchlist_manager.remove_from_watchlist(
-                        user.id, watchlist_cmd["tickers"], db
+                        user.id, tickers, db
                     )
                     reply = await watchlist_manager.format_watchlist_response(res, "remove")
+                    await self.safe_edit(thinking_msg, reply)
+                    return
+
+                if action == "list":
+                    watchlist = await watchlist_manager.get_watchlist(user.id, db)
+                    if watchlist:
+                        reply = f"**Your Watchlist:**\n\n"
+                        for symbol in watchlist:
+                            reply += f"  - {symbol}\n"
+                        reply += f"\nTracking {len(watchlist)} stocks. Want me to analyze any of them?"
+                    else:
+                        reply = "Your watchlist is empty. Add stocks by saying something like:\n  • Add NVDA to my watchlist\n  • Track Apple\n  • Follow Tesla"
                     await self.safe_edit(thinking_msg, reply)
                     return
 

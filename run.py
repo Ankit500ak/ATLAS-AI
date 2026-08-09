@@ -25,19 +25,15 @@ def main():
         print("Set it in .env file or environment variable.")
         print()
 
-    if not settings.openai_api_key:
-        print("WARNING: OPENAI_API_KEY not set!")
-        print("Set it in .env file or environment variable.")
-        print()
-
-    print(f"Starting server on port 8000...")
+    port = int(os.environ.get("PORT", 8000))
+    print(f"Starting server on port {port}...")
     print(f"Environment: {settings.app_env}")
     print()
 
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=settings.app_env == "development",
         log_level=settings.log_level.lower(),
     )

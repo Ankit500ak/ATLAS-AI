@@ -16,6 +16,7 @@ from app.services.personalization.watchlist_manager import watchlist_manager
 from app.services.personalization.proactive_suggestor import proactive_suggestor
 from app.services.financial.cache_service import cache_service
 import json
+import re
 import logging
 import time
 
@@ -42,6 +43,20 @@ class AIOrchestrator:
         self.stock_service = StockService()
         self.news_service = NewsService()
         self.user_profiler = UserProfiler()
+
+    def _md_to_html(self, text: str) -> str:
+        """Convert markdown to HTML for Telegram."""
+        if not text:
+            return text
+        # Convert **bold** to <b>bold</b>
+        text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
+        # Convert *italic* to <i>italic</i> (but not inside <b> tags)
+        text = re.sub(r'(?<!<b>)\*(.+?)\*(?!</b>)', r'<i>\1</i>', text)
+        # Convert `code` to <code>code</code>
+        text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
+        # Convert bullet points
+        text = re.sub(r'^\s*[-•]\s+', '  • ', text, flags=re.MULTILINE)
+        return text
 
     async def process_message(
         self,
@@ -187,7 +202,7 @@ class AIOrchestrator:
             logger.info(f"Message processed in {duration:.2f}s, intent={intent}")
 
             return {
-                "response": response["response"],
+                "response": self._md_to_html(response["response"]),
                 "intent": intent,
                 "confidence": confidence,
                 "insights": response.get("insights", []),
@@ -289,9 +304,9 @@ class AIOrchestrator:
                 "duration": 0,
             }
 
-        reply = f"**Recent SEC Filings for {symbol}:**\n\n"
+        reply = f"<b>Recent SEC Filings for {symbol}:</b>\n\n"
         for f in filings:
-            reply += f"• **{f['form_type']}** ({f.get('file_date', f.get('filing_date', 'N/A'))}): {f['description']}\n"
+            reply += f"• <b>{f['form_type']}</b> ({f.get('file_date', f.get('filing_date', 'N/A'))}): {f['description']}\n"
 
         reply += "\nWould you like me to analyze any of these filings in detail?"
 
@@ -482,7 +497,7 @@ Provide:
             return {
                 "response": (
                     "Your Google account isn't connected yet. I can't access your emails.\n\n"
-                    "To connect, just say: **Connect my Google account**\n"
+                    "To connect, just say: <b>Connect my Google account</b>\n"
                     "Or skip this and ask me about stocks, market news, or anything else."
                 ),
                 "intent": "email_query",
@@ -519,7 +534,7 @@ Provide:
             }
 
         email_summary = "\n".join([
-            f"- **{m.get('subject', 'No subject')}** from {m.get('from', 'Unknown')} ({m.get('date', '')})"
+            f"- <b>{m.get('subject', 'No subject')}</b> from {m.get('from', 'Unknown')} ({m.get('date', '')})"
             for m in messages[:10]
         ])
 
@@ -555,7 +570,7 @@ User question: {message}"""
             return {
                 "response": (
                     "Your Google account isn't connected yet. I can't access your calendar.\n\n"
-                    "To connect, just say: **Connect my Google account**\n"
+                    "To connect, just say: <b>Connect my Google account</b>\n"
                     "Or ask me about stocks, market news, or anything else."
                 ),
                 "intent": "calendar_query",
@@ -595,7 +610,7 @@ User question: {message}"""
             }
 
         event_list = "\n".join([
-            f"- **{e.get('summary', 'No title')}** at {e.get('start', 'TBD')}"
+            f"- <b>{e.get('summary', 'No title')}</b> at {e.get('start', 'TBD')}"
             for e in events[:15]
         ])
 
@@ -631,7 +646,7 @@ User question: {message}"""
             return {
                 "response": (
                     "Your Google account isn't connected yet. I can't access your Drive files.\n\n"
-                    "To connect, just say: **Connect my Google account**\n"
+                    "To connect, just say: <b>Connect my Google account</b>\n"
                     "Or ask me about stocks, market news, or anything else."
                 ),
                 "intent": "drive_query",
@@ -668,12 +683,12 @@ User question: {message}"""
             }
 
         file_list = "\n".join([
-            f"- **{f.get('name', 'Unknown')}** ({f.get('mime_type', '').split('/')[-1]}) - {f.get('modified', 'N/A')}"
+            f"- <b>{f.get('name', 'Unknown')}</b> ({f.get('mime_type', '').split('/')[-1]}) - {f.get('modified', 'N/A')}"
             for f in files[:10]
         ])
 
         return {
-            "response": f"**Your Drive Files:**\n\n{file_list}\n\nWant me to analyze any of these? Just ask!",
+            "response": f"<b>Your Drive Files:</b>\n\n{file_list}\n\nWant me to analyze any of these? Just ask!",
             "intent": "drive_query",
             "confidence": 0.9,
             "insights": [f"{len(files)} files found"],
@@ -691,7 +706,7 @@ User question: {message}"""
             return {
                 "response": (
                     "Your Google account isn't connected yet. I can't access your spreadsheets.\n\n"
-                    "To connect, just say: **Connect my Google account**\n"
+                    "To connect, just say: <b>Connect my Google account</b>\n"
                     "Or skip this and ask me about stocks, market news, or anything else."
                 ),
                 "intent": "sheets_query",
@@ -729,12 +744,12 @@ User question: {message}"""
             }
 
         file_list = "\n".join([
-            f"- **{f.get('name', 'Unknown')}** ({f.get('modified', 'N/A')})"
+            f"- <b>{f.get('name', 'Unknown')}</b> ({f.get('modified', 'N/A')})"
             for f in sheets[:5]
         ])
 
         return {
-            "response": f"**Your Spreadsheets:**\n\n{file_list}\n\nTell me which one to analyze!",
+            "response": f"<b>Your Spreadsheets:</b>\n\n{file_list}\n\nTell me which one to analyze!",
             "intent": "sheets_query",
             "confidence": 0.9,
             "insights": [f"{len(sheets)} spreadsheets found"],
@@ -780,10 +795,10 @@ User question: {message}"""
                 "duration": 0,
             }
 
-        lines = [f"- *{symbol}*" for symbol in watchlist]
+        lines = [f"  - <b>{symbol}</b>" for symbol in watchlist]
 
-        response = f"**Your Watchlist:**\n\n" + "\n".join(lines)
-        response += f"\n\nTracking *{len(watchlist)} stocks* helps you spot opportunities and manage risk."
+        response = f"<b>Your Watchlist:</b>\n\n" + "\n".join(lines)
+        response += f"\n\nTracking <b>{len(watchlist)} stocks</b> helps you spot opportunities and manage risk."
         response += "\n\nWant me to analyze any of these?"
 
         return {
@@ -886,13 +901,13 @@ User question: {message}"""
 
         lines = []
         for alert in alerts:
-            lines.append(f"- *{alert.symbol}* {alert.alert_type} ${alert.target_value:.2f}")
+            lines.append(f"- <b>{alert.symbol}</b> {alert.alert_type} ${alert.target_value:.2f}")
 
-        response = f"**Your Active Alerts:**\n\n" + "\n".join(lines)
+        response = f"<b>Your Active Alerts:</b>\n\n" + "\n".join(lines)
         response += f"\n\nAlerts help you act fast when conditions are met — no need to watch the screen all day."
 
         return {
-            "response": f"**Your Active Alerts:**\n\n" + "\n".join(lines),
+            "response": response,
             "intent": "view_alerts",
             "confidence": 1.0,
             "insights": [f"{len(alerts)} alerts active"],
@@ -922,9 +937,9 @@ User question: {message}"""
 
         lines = []
         for item in calendar[:10]:
-            lines.append(f"- *{item.get('symbol', 'N/A')}* - {item.get('date', 'N/A')} ({item.get('time', 'N/A')})")
+            lines.append(f"- <b>{item.get('symbol', 'N/A')}</b> - {item.get('date', 'N/A')} ({item.get('time', 'N/A')})")
 
-        response = f"**Upcoming Earnings:**\n\n" + "\n".join(lines)
+        response = f"<b>Upcoming Earnings:</b>\n\n" + "\n".join(lines)
         response += "\n\nEarnings reports often cause big price swings. Want me to analyze any of these before they report?"
 
         return {
@@ -948,11 +963,11 @@ User question: {message}"""
 
         return {
             "response": (
-                "**System Status:**\n\n"
-                "- Bot: *Online*\n"
-                "- Market data: *Active*\n"
-                f"- Market: *{'Open' if is_open else 'Closed'}*\n"
-                "- AI model: *Ollama (qwen2.5:1.5b)*\n\n"
+                "<b>System Status:</b>\n\n"
+                "- Bot: <i>Online</i>\n"
+                "- Market data: <i>Active</i>\n"
+                f"- Market: <i>{'Open' if is_open else 'Closed'}</i>\n"
+                "- AI model: <i>MiMo (OpenCode Zen)</i>\n\n"
                 "Everything is running smoothly! "
                 + ("Market is open — good time to check prices." if is_open else "Market is closed — next open is Monday 9:30 AM ET.")
             ),
@@ -988,10 +1003,10 @@ User question: {message}"""
 
         return {
             "response": (
-                f"{emoji} **Market Sentiment: {mood}**\n\n"
-                f"Sentiment score: *{score:+.2f}* (range: -1.0 to +1.0)\n\n"
+                f"{emoji} <b>Market Sentiment: {mood}</b>\n\n"
+                f"Sentiment score: <i>{score:+.2f}</i> (range: -1.0 to +1.0)\n\n"
                 f"{explanation}\n\n"
-                f"**Recent headlines:**\n{news_text}\n\n"
+                f"<b>Recent headlines:</b>\n{news_text}\n\n"
                 f"Want me to dig deeper into any of these?"
             ),
             "intent": "market_sentiment",

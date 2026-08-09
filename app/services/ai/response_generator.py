@@ -2,6 +2,12 @@ from typing import Dict, Any, List, Optional
 from app.services.ai.service import AIService
 from app.services.ai.model_router import ModelRouter
 from app.services.ai.prompts import PromptTemplates
+from app.services.ai.formatters import (
+    format_stock_comparison,
+    format_stock_analysis,
+    format_watchlist_summary,
+    format_market_overview,
+)
 import json
 import logging
 
@@ -39,6 +45,25 @@ class ResponseGenerator:
             return self._fallback_response(intent, user_message)
 
         response_data = self._parse_response(result["content"])
+        
+        # Use structured formatters for stock-related intents
+        if intent == "compare_companies" and financial_data:
+            tickers = list(financial_data.keys())
+            formatted = format_stock_comparison(financial_data, tickers)
+            response_data["response"] = formatted
+        elif intent == "stock_analysis" and financial_data:
+            ticker = list(financial_data.keys())[0] if financial_data else "STOCK"
+            formatted = format_stock_analysis(ticker, financial_data)
+            response_data["response"] = formatted
+        elif intent == "watchlist_query":
+            stocks = context.get("watchlist_data", [])
+            if stocks:
+                formatted = format_watchlist_summary(stocks)
+                response_data["response"] = formatted
+        elif intent == "market_overview" and financial_data:
+            formatted = format_market_overview(financial_data)
+            response_data["response"] = formatted
+        
         response_data["model_used"] = result["model"]
         response_data["tokens_used"] = result["tokens_used"]
         response_data["cost_estimate"] = result["cost_estimate"]

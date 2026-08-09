@@ -1,46 +1,83 @@
 from typing import Dict, List, Any
 
 
+def _filter_tickers(data: Dict[str, Any], tickers: List[str]) -> List[str]:
+    """Filter out _info suffix tickers and return clean list."""
+    return [t for t in tickers if not t.endswith('_info')]
+
+
+def _format_price(price, change) -> str:
+    """Format price with arrow."""
+    if change >= 0:
+        return f"${price} ▲ +{change:.2f}%"
+    else:
+        return f"${price} ▼ {change:.2f}%"
+
+
 def format_stock_comparison(data: Dict[str, Any], tickers: List[str]) -> str:
     """Format stock comparison with professional Telegram styling."""
     
     if not data or not tickers:
         return "No data available for comparison."
     
+    # Filter out _info variants
+    clean_tickers = _filter_tickers(data, tickers)
+    if not clean_tickers:
+        clean_tickers = tickers[:2]  # Fallback to first two
+    
     lines = []
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    lines.append(f"📊 <b>STOCK COMPARISON</b>")
-    lines.append(f"{' vs '.join(tickers)}")
+    lines.append("📊 <b>STOCK COMPARISON</b>")
+    lines.append(f"{' vs '.join(clean_tickers)}")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
     
     # Price & Performance
     lines.append("💰 <b>PRICE & TODAY</b>")
     lines.append("─────────────────────────────")
-    for ticker in tickers:
+    for ticker in clean_tickers:
         stock = data.get(ticker, {})
         price = stock.get("price", "N/A")
         change = stock.get("change_percent", 0)
         if change >= 0:
-            color = "#00C853"
             arrow = "▲"
             signal = "BULLISH"
         else:
-            color = "#FF1744"
             arrow = "▼"
             signal = "BEARISH"
         lines.append(f'  <b>{ticker}</b>')
-        lines.append(f'  └─ ${price} <font color="{color}">{arrow} {change:+.2f}%</font>')
-        lines.append(f'    <font color="{color}">[{signal}]</font>')
+        lines.append(f'  └─ ${price} {arrow} {change:+.2f}%')
+        lines.append(f'    [{signal}]')
     lines.append("")
     
     # Fundamentals
     lines.append("📈 <b>FUNDAMENTALS</b>")
     lines.append("─────────────────────────────")
-    for ticker in tickers:
+    for ticker in clean_tickers:
         stock = data.get(ticker, {})
         pe = stock.get("pe_ratio", "N/A")
         margin = stock.get("profit_margin", "N/A")
         market_cap = stock.get("market_cap", "N/A")
+        if pe and pe != "N/A":
+            try:
+                pe = f"{float(pe):.1f}"
+            except:
+                pass
+        if margin and margin != "N/A":
+            try:
+                margin = f"{float(margin)*100:.1f}%"
+            except:
+                pass
+        if market_cap and market_cap != "N/A":
+            try:
+                cap = float(market_cap)
+                if cap >= 1e12:
+                    market_cap = f"${cap/1e12:.1f}T"
+                elif cap >= 1e9:
+                    market_cap = f"${cap/1e9:.1f}B"
+                elif cap >= 1e6:
+                    market_cap = f"${cap/1e6:.1f}M"
+            except:
+                pass
         lines.append(f'  <b>{ticker}</b>')
         lines.append(f'  └─ P/E: <code>{pe}</code>')
         lines.append(f'    Margin: <code>{margin}</code>')
@@ -50,18 +87,17 @@ def format_stock_comparison(data: Dict[str, Any], tickers: List[str]) -> str:
     # 52-Week Range
     lines.append("📅 <b>52-WEEK RANGE</b>")
     lines.append("─────────────────────────────")
-    for ticker in tickers:
+    for ticker in clean_tickers:
         stock = data.get(ticker, {})
         low_52 = stock.get("52_week_low", "N/A")
         high_52 = stock.get("52_week_high", "N/A")
         price = stock.get("price", 0)
         
-        # Calculate position in range
-        if low_52 and high_52 and price:
+        if low_52 and high_52 and price and low_52 != "N/A" and high_52 != "N/A":
             try:
-                low_f = float(low_52.replace(",", ""))
-                high_f = float(high_52.replace(",", ""))
-                price_f = float(price.replace(",", ""))
+                low_f = float(str(low_52).replace(",", ""))
+                high_f = float(str(high_52).replace(",", ""))
+                price_f = float(str(price).replace(",", ""))
                 if high_f > low_f:
                     position = ((price_f - low_f) / (high_f - low_f)) * 100
                     bar_len = 20
@@ -69,20 +105,20 @@ def format_stock_comparison(data: Dict[str, Any], tickers: List[str]) -> str:
                     bar = "█" * filled + "░" * (bar_len - filled)
                     lines.append(f'  <b>{ticker}</b>')
                     lines.append(f'  └─ <code>${low_52}</code> ─ <code>${high_52}</code>')
-                    lines.append(f'    [{bar}] <font color="#FFD700">{position:.0f}%</font>')
+                    lines.append(f'    [{bar}] {position:.0f}%')
                 else:
                     lines.append(f'  <b>{ticker}</b>: <code>${low_52} - ${high_52}</code>')
             except:
                 lines.append(f'  <b>{ticker}</b>: <code>${low_52} - ${high_52}</code>')
         else:
-            lines.append(f'  <b>{ticker}</b>: <code>${low_52} - ${high_52}</code>')
+            lines.append(f'  <b>{ticker}</b>: <code>Data unavailable</code>')
     lines.append("")
     
     # Verdict
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    if len(tickers) >= 2:
-        s1 = data.get(tickers[0], {})
-        s2 = data.get(tickers[1], {})
+    if len(clean_tickers) >= 2:
+        s1 = data.get(clean_tickers[0], {})
+        s2 = data.get(clean_tickers[1], {})
         pe1 = s1.get("pe_ratio", 0)
         pe2 = s2.get("pe_ratio", 0)
         if pe1 and pe2:
@@ -90,9 +126,9 @@ def format_stock_comparison(data: Dict[str, Any], tickers: List[str]) -> str:
                 pe1_f = float(str(pe1).replace(",", ""))
                 pe2_f = float(str(pe2).replace(",", ""))
                 if pe1_f < pe2_f:
-                    lines.append(f'💡 <font color="#00C853">{tickers[0]}</font> is more <b>value-oriented</b>')
+                    lines.append(f'💡 <b>{clean_tickers[0]}</b> is more <b>value-oriented</b>')
                 else:
-                    lines.append(f'💡 <font color="#00C853">{tickers[1]}</font> is more <b>value-oriented</b>')
+                    lines.append(f'💡 <b>{clean_tickers[1]}</b> is more <b>value-oriented</b>')
             except:
                 pass
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -109,11 +145,9 @@ def format_stock_analysis(ticker: str, data: Dict[str, Any]) -> str:
     price = data.get("price", "N/A")
     change = data.get("change_percent", 0)
     if change >= 0:
-        color = "#00C853"
         arrow = "▲"
         signal = "BULLISH"
     else:
-        color = "#FF1744"
         arrow = "▼"
         signal = "BEARISH"
     
@@ -126,8 +160,8 @@ def format_stock_analysis(ticker: str, data: Dict[str, Any]) -> str:
     lines.append("💰 <b>PRICE</b>")
     lines.append("─────────────────────────────")
     lines.append(f'  <b>Current:</b> <code>${price}</code>')
-    lines.append(f'  <b>Change:</b> <font color="{color}">{arrow} {change:+.2f}%</font>')
-    lines.append(f'  <b>Signal:</b> <font color="{color}">[{signal}]</font>')
+    lines.append(f'  <b>Change:</b> {arrow} {change:+.2f}%')
+    lines.append(f'  <b>Signal:</b> [{signal}]')
     lines.append("")
     
     # Trading Range
@@ -175,31 +209,31 @@ def format_watchlist_summary(stocks: List[Dict[str, Any]]) -> str:
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
     
     total_change = 0
+    valid_stocks = 0
     for stock in stocks:
         ticker = stock.get("ticker", "?")
+        if ticker.endswith('_info'):
+            continue
         price = stock.get("price", "N/A")
         change = stock.get("change_percent", 0)
         total_change += change
+        valid_stocks += 1
         if change >= 0:
-            color = "#00C853"
             arrow = "▲"
         else:
-            color = "#FF1744"
             arrow = "▼"
         lines.append(f'  <b>{ticker}</b>')
-        lines.append(f'  └─ <code>${price}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
+        lines.append(f'  └─ <code>${price}</code> {arrow} {change:+.2f}%')
     
     lines.append("")
     lines.append("─────────────────────────────")
-    avg_change = total_change / len(stocks) if stocks else 0
+    avg_change = total_change / valid_stocks if valid_stocks > 0 else 0
     if avg_change >= 0:
-        color = "#00C853"
         arrow = "▲"
     else:
-        color = "#FF1744"
         arrow = "▼"
-    lines.append(f'📊 <b>Summary:</b> {len(stocks)} stocks')
-    lines.append(f'📈 <b>Avg Change:</b> <font color="{color}">{arrow} {avg_change:+.2f}%</font>')
+    lines.append(f'📊 <b>Summary:</b> {valid_stocks} stocks')
+    lines.append(f'📈 <b>Avg Change:</b> {arrow} {avg_change:+.2f}%')
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
     return "\n".join(lines)
@@ -214,19 +248,19 @@ def format_market_overview(indices: Dict[str, Any]) -> str:
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
     
     for name, data in indices.items():
+        if name.endswith('_info'):
+            continue
         value = data.get("value", "N/A")
         change = data.get("change_percent", 0)
         if change >= 0:
-            color = "#00C853"
             arrow = "▲"
             status = "UP"
         else:
-            color = "#FF1744"
             arrow = "▼"
             status = "DOWN"
         lines.append(f'  <b>{name}</b>')
-        lines.append(f'  └─ <code>{value}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
-        lines.append(f'    <font color="{color}">[{status}]</font>')
+        lines.append(f'  └─ <code>{value}</code> {arrow} {change:+.2f}%')
+        lines.append(f'    [{status}]')
     
     lines.append("")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -245,15 +279,13 @@ def format_portfolio_analysis(portfolio: Dict[str, Any]) -> str:
     total_value = portfolio.get("total_value", 0)
     total_change = portfolio.get("total_change_percent", 0)
     if total_change >= 0:
-        color = "#00C853"
         arrow = "▲"
     else:
-        color = "#FF1744"
         arrow = "▼"
     
     lines.append("💰 <b>TOTAL VALUE</b>")
     lines.append("─────────────────────────────")
-    lines.append(f'  <code>${total_value:,.2f}</code> <font color="{color}">{arrow} {total_change:+.2f}%</font>')
+    lines.append(f'  <code>${total_value:,.2f}</code> {arrow} {total_change:+.2f}%')
     lines.append("")
     
     holdings = portfolio.get("holdings", [])
@@ -262,18 +294,18 @@ def format_portfolio_analysis(portfolio: Dict[str, Any]) -> str:
         lines.append("─────────────────────────────")
         for h in holdings:
             ticker = h.get("ticker", "?")
+            if ticker.endswith('_info'):
+                continue
             shares = h.get("shares", 0)
             value = h.get("value", 0)
             gain_loss = h.get("gain_loss_percent", 0)
             if gain_loss >= 0:
-                gcolor = "#00C853"
                 gain_arrow = "▲"
             else:
-                gcolor = "#FF1744"
                 gain_arrow = "▼"
             lines.append(f'  <b>{ticker}</b>')
             lines.append(f'  └─ {shares} shares | <code>${value:,.2f}</code>')
-            lines.append(f'    <font color="{gcolor}">{gain_arrow} {gain_loss:+.2f}%</font>')
+            lines.append(f'    {gain_arrow} {gain_loss:+.2f}%')
     
     lines.append("")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -286,7 +318,7 @@ def format_morning_briefing(briefing: Dict[str, Any]) -> str:
     
     lines = []
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    lines.append("☀️ <b>GOOD MORNING, {name}!</b>")
+    lines.append("☀️ <b>GOOD MORNING!</b>")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
     
     # Market Status
@@ -304,15 +336,15 @@ def format_morning_briefing(briefing: Dict[str, Any]) -> str:
         lines.append("🌍 <b>MARKET INDICES</b>")
         lines.append("─────────────────────────────")
         for name, data in indices.items():
+            if name.endswith('_info'):
+                continue
             value = data.get("value", "N/A")
             change = data.get("change_percent", 0)
             if change >= 0:
-                color = "#00C853"
                 arrow = "▲"
             else:
-                color = "#FF1744"
                 arrow = "▼"
-            lines.append(f'  <b>{name}</b>: <code>{value}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
+            lines.append(f'  <b>{name}</b>: <code>{value}</code> {arrow} {change:+.2f}%')
         lines.append("")
     
     # Watchlist Updates
@@ -322,15 +354,15 @@ def format_morning_briefing(briefing: Dict[str, Any]) -> str:
         lines.append("─────────────────────────────")
         for stock in watchlist[:5]:
             ticker = stock.get("ticker", "?")
+            if ticker.endswith('_info'):
+                continue
             price = stock.get("price", "N/A")
             change = stock.get("change_percent", 0)
             if change >= 0:
-                color = "#00C853"
                 arrow = "▲"
             else:
-                color = "#FF1744"
                 arrow = "▼"
-            lines.append(f'  <b>{ticker}</b>: <code>${price}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
+            lines.append(f'  <b>{ticker}</b>: <code>${price}</code> {arrow} {change:+.2f}%')
         lines.append("")
     
     # Top News
@@ -341,15 +373,6 @@ def format_morning_briefing(briefing: Dict[str, Any]) -> str:
         for i, item in enumerate(news[:3], 1):
             title = item.get("title", "N/A")
             lines.append(f'  {i}. <b>{title}</b>')
-        lines.append("")
-    
-    # Key Events
-    events = briefing.get("key_events", [])
-    if events:
-        lines.append("📅 <b>KEY EVENTS</b>")
-        lines.append("─────────────────────────────")
-        for event in events[:3]:
-            lines.append(f'  • {event}')
         lines.append("")
     
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -373,15 +396,15 @@ def format_evening_summary(summary: Dict[str, Any]) -> str:
         lines.append("📈 <b>MARKET PERFORMANCE</b>")
         lines.append("─────────────────────────────")
         for name, data in market.items():
+            if name.endswith('_info'):
+                continue
             value = data.get("value", "N/A")
             change = data.get("change_percent", 0)
             if change >= 0:
-                color = "#00C853"
                 arrow = "▲"
             else:
-                color = "#FF1744"
                 arrow = "▼"
-            lines.append(f'  <b>{name}</b>: <code>{value}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
+            lines.append(f'  <b>{name}</b>: <code>{value}</code> {arrow} {change:+.2f}%')
         lines.append("")
     
     # Watchlist Performance
@@ -391,15 +414,15 @@ def format_evening_summary(summary: Dict[str, Any]) -> str:
         lines.append("─────────────────────────────")
         for stock in watchlist[:5]:
             ticker = stock.get("ticker", "?")
+            if ticker.endswith('_info'):
+                continue
             price = stock.get("price", "N/A")
             change = stock.get("change_percent", 0)
             if change >= 0:
-                color = "#00C853"
                 arrow = "▲"
             else:
-                color = "#FF1744"
                 arrow = "▼"
-            lines.append(f'  <b>{ticker}</b>: <code>${price}</code> <font color="{color}">{arrow} {change:+.2f}%</font>')
+            lines.append(f'  <b>{ticker}</b>: <code>${price}</code> {arrow} {change:+.2f}%')
         lines.append("")
     
     # Top News
@@ -434,10 +457,8 @@ def format_alert_triggered(alert: Dict[str, Any]) -> str:
     change = alert.get("change_percent", 0)
     
     if change >= 0:
-        color = "#00C853"
         arrow = "▲"
     else:
-        color = "#FF1744"
         arrow = "▼"
     
     lines.append(f'📊 <b>{ticker}</b>')
@@ -445,7 +466,7 @@ def format_alert_triggered(alert: Dict[str, Any]) -> str:
     lines.append(f'  <b>Alert Type:</b> <code>{alert_type}</code>')
     lines.append(f'  <b>Target:</b> <code>${target}</code>')
     lines.append(f'  <b>Current:</b> <code>${current}</code>')
-    lines.append(f'  <b>Change:</b> <font color="{color}">{arrow} {change:+.2f}%</font>')
+    lines.append(f'  <b>Change:</b> {arrow} {change:+.2f}%')
     lines.append("")
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     

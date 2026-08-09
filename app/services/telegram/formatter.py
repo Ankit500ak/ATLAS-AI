@@ -23,7 +23,7 @@ class TelegramFormatter:
         # Step 2: Add colors for financial data
         text = TelegramFormatter._add_financial_colors(text)
         
-        # Step 3: Clean up any double tags
+        # Step 3: Clean up any nested/duplicate tags
         text = TelegramFormatter._cleanup(text)
         
         return text
@@ -43,13 +43,24 @@ class TelegramFormatter:
     def _add_financial_colors(text: str) -> str:
         """Add colors for financial data (green for profit, red for loss)."""
         
+        # First, protect existing HTML tags by temporarily replacing them
+        protected = []
+        def protect(match):
+            protected.append(match.group(0))
+            return f"__PROTECTED_{len(protected)-1}__"
+        
+        # Protect all existing HTML tags
+        text = re.sub(r'<[^>]+>', protect, text)
+        
         # Color percentage changes: +2.5% (green), -1.3% (red)
-        text = re.sub(
-            r'([+-]?\d+\.?\d*%)',
-            lambda m: f'<font color="{TelegramFormatter.GREEN}">{m.group(1)}</font>' if m.group(1).startswith('+') or (not m.group(1).startswith('-') and m.group(1)[0].isdigit())
-            else f'<font color="{TelegramFormatter.RED}">{m.group(1)}</font>',
-            text
-        )
+        def color_percent(match):
+            val = match.group(1)
+            if val.startswith('+') or (val[0].isdigit()):
+                return f'<font color="{TelegramFormatter.GREEN}">{val}</font>'
+            else:
+                return f'<font color="{TelegramFormatter.RED}">{val}</font>'
+        
+        text = re.sub(r'([+-]?\d+\.?\d*%)', color_percent, text)
         
         # Color ▲ arrows green and ▼ arrows red
         text = text.replace('▲', f'<font color="{TelegramFormatter.GREEN}">▲</font>')
@@ -58,42 +69,38 @@ class TelegramFormatter:
         # Color BULLISH/BEARISH signals
         text = text.replace('BULLISH', f'<font color="{TelegramFormatter.GREEN}">BULLISH</font>')
         text = text.replace('BEARISH', f'<font color="{TelegramFormatter.RED}">BEARISH</font>')
-        text = text.replace('[BULLISH]', f'<font color="{TelegramFormatter.GREEN}">[BULLISH]</font>')
-        text = text.replace('[BEARISH]', f'<font color="{TelegramFormatter.RED}">[BEARISH]</font>')
         
         # Color UP/DOWN market status
         text = text.replace('[UP]', f'<font color="{TelegramFormatter.GREEN}">[UP]</font>')
         text = text.replace('[DOWN]', f'<font color="{TelegramFormatter.RED}">[DOWN]</font>')
         
-        # Color sentiment scores
-        text = re.sub(
-            r'Sentiment score: (<i>[+-]?\d+\.?\d*</i>)',
-            lambda m: f'Sentiment score: {m.group(1)}'.replace(
-                m.group(1),
-                f'<font color="{TelegramFormatter.GREEN}">{m.group(1)}</font>' if '+' in m.group(1)
-                else f'<font color="{TelegramFormatter.RED}">{m.group(1)}</font>'
-            ),
-            text
-        )
+        # Restore protected HTML tags
+        def restore(match):
+            idx = int(match.group(1))
+            return protected[idx]
         
-        # Color sentiment mood
-        text = text.replace('Market Sentiment: Bullish', f'Market Sentiment: <font color="{TelegramFormatter.GREEN}">Bullish</font>')
-        text = text.replace('Market Sentiment: Bearish', f'Market Sentiment: <font color="{TelegramFormatter.RED}">Bearish</font>')
-        text = text.replace('Market Sentiment: Neutral', f'Market Sentiment: <font color="{TelegramFormatter.GOLD}">Neutral</font>')
+        text = re.sub(r'__PROTECTED_(\d+)__', restore, text)
         
         return text
     
     @staticmethod
     def _cleanup(text: str) -> str:
-        """Clean up any formatting issues."""
-        # Remove double <b> tags
+        """Clean up any nested/duplicate tags."""
+        # Remove nested <font> tags: <font color="X"><font color="X">text</font></font> -> <font color="X">text</font>
+        text = re.sub(r'<font color="([^"]+)"><font color="\1">(.*?)</font></font>', r'<font color="\1">\2</font>', text)
+        
+        # Remove nested <b> tags
         text = re.sub(r'<b><b>(.+?)</b></b>', r'<b>\1</b>', text)
-        # Remove double <i> tags
+        
+        # Remove nested <i> tags
         text = re.sub(r'<i><i>(.+?)</i></i>', r'<i>\1</i>', text)
+        
         # Remove empty tags
         text = re.sub(r'<b></b>', '', text)
         text = re.sub(r'<i></i>', '', text)
         text = re.sub(r'<code></code>', '', text)
+        text = re.sub(r'<font[^>]*></font>', '', text)
+        
         return text
 
 

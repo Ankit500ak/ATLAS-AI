@@ -50,7 +50,7 @@ class TelegramBotImpl(TelegramBotService):
 
         return self.app
 
-    async def send_message(self, chat_id: int, text: str, parse_mode: str = "Markdown") -> bool:
+    async def send_message(self, chat_id: int, text: str, parse_mode: str = "HTML") -> bool:
         if self.app and self.app.bot:
             try:
                 await self.app.bot.send_message(chat_id=chat_id, text=text, parse_mode=parse_mode)
@@ -70,7 +70,7 @@ class TelegramBotImpl(TelegramBotService):
                 return {"status": "error", "message": str(e)}
         return {"status": "error", "message": "Bot not initialized"}
 
-    async def safe_send(self, chat_or_msg, text: str, parse_mode: str = "Markdown",
+    async def safe_send(self, chat_or_msg, text: str, parse_mode: str = "HTML",
                         reply_to=None, retry: bool = True) -> bool:
         from app.utils.formatters import chunk_message
 
@@ -81,16 +81,16 @@ class TelegramBotImpl(TelegramBotService):
             msg_to_send = chunk
             sent = False
 
-            if parse_mode == "Markdown":
+            if parse_mode == "HTML":
                 try:
                     if hasattr(chat_or_msg, 'reply_text'):
-                        await chat_or_msg.reply_text(msg_to_send, parse_mode="Markdown",
+                        await chat_or_msg.reply_text(msg_to_send, parse_mode="HTML",
                                                      reply_to_message_id=reply_to)
                     else:
-                        await chat_or_msg.send_message(msg_to_send, parse_mode="Markdown")
+                        await chat_or_msg.send_message(msg_to_send, parse_mode="HTML")
                     sent = True
-                except Exception as md_err:
-                    logger.debug(f"Markdown parse failed, retrying without: {md_err}")
+                except Exception as html_err:
+                    logger.debug(f"HTML parse failed, retrying without: {html_err}")
                     try:
                         if hasattr(chat_or_msg, 'reply_text'):
                             await chat_or_msg.reply_text(msg_to_send, reply_to_message_id=reply_to)
@@ -101,7 +101,7 @@ class TelegramBotImpl(TelegramBotService):
                         logger.error(f"Plain text send also failed: {plain_err}")
                         sent = False
 
-            if not sent and parse_mode != "Markdown":
+            if not sent and parse_mode != "HTML":
                 try:
                     if hasattr(chat_or_msg, 'reply_text'):
                         await chat_or_msg.reply_text(msg_to_send, reply_to_message_id=reply_to)
@@ -117,9 +117,9 @@ class TelegramBotImpl(TelegramBotService):
 
         return all_success
 
-    async def safe_edit(self, message, text: str, parse_mode: str = "Markdown") -> bool:
+    async def safe_edit(self, message, text: str, parse_mode: str = "HTML") -> bool:
         try:
-            await message.edit_text(text, parse_mode="Markdown")
+            await message.edit_text(text, parse_mode="HTML")
             return True
         except Exception:
             try:
@@ -358,7 +358,7 @@ class TelegramBotImpl(TelegramBotService):
                         reply = "Please start the conversation first by typing /start"
                         from app.utils.formatters import chunk_message
                         for chunk in chunk_message(reply):
-                            await update.message.reply_text(chunk, parse_mode="Markdown")
+                            await update.message.reply_text(chunk, parse_mode="HTML")
                         return
 
                     doc_record = DocModel(
@@ -392,7 +392,7 @@ class TelegramBotImpl(TelegramBotService):
 
             from app.utils.formatters import chunk_message
             for chunk in chunk_message(reply):
-                await update.message.reply_text(chunk, parse_mode="Markdown")
+                await update.message.reply_text(chunk, parse_mode="HTML")
         except Exception as e:
             logger.error(f"Error handling document from {user.id}: {e}", exc_info=True)
             try:

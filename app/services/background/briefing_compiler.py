@@ -73,37 +73,37 @@ class BriefingCompiler:
             if summary_type == "morning" and not has_news and not has_market_moves:
                 return None
 
-            briefing = f"**Good {self._get_greeting(summary_type)}! Here's your Market Briefing**\n"
-            briefing += f"_{datetime.now().strftime('%A, %B %d, %Y')}_\n\n"
+            briefing = f"<b>Good {self._get_greeting(summary_type)}! Here's your Market Briefing</b>\n"
+            briefing += f"<i>{datetime.now().strftime('%A, %B %d, %Y')}</i>\n\n"
 
             if indices:
-                briefing += "**Market Overview**\n"
+                briefing += "<b>Market Overview</b>\n"
                 for name, data in indices.items():
                     if isinstance(data, dict) and data.get("price") is not None and data.get("change") is not None:
                         emoji = "🟢" if data["change"] >= 0 else "🔴"
                         briefing += f"{emoji} {name}: {data['price']:,.2f} ({data['change']:+.2f} / {data.get('change_percent', 0):+.2f}%)\n"
 
-            briefing += "\n**Your Watchlist**\n"
+            briefing += "\n<b>Your Watchlist</b>\n"
             for symbol in watchlist[:8]:
                 try:
                     data = await self._stock_service.get_stock_data(symbol)
                     if data:
                         emoji = "🟢" if data["change"] >= 0 else "🔴"
                         briefing += (
-                            f"{emoji} **{symbol}**: ${data['price']:.2f} "
+                            f"{emoji} <b>{symbol}</b>: ${data['price']:.2f} "
                             f"({data['change']:+.2f} / {data['change_percent']:+.2f}%)\n"
                         )
                 except Exception as e:
                     logger.error(f"Failed to get stock data for {symbol}: {e}")
 
             if news:
-                briefing += "\n**Top News**\n"
+                briefing += "\n<b>Top News</b>\n"
                 for article in news[:5]:
                     title = escape_markdown(article['title'][:80])
                     briefing += f"• {title}\n"
 
             status_text = market_status.get('status', 'unknown')
-            briefing += f"\n_Market is currently {status_text}_"
+            briefing += f"\n<i>Market is currently {status_text}</i>"
             briefing += "\n\nAsk me anything about these stocks or market events!"
 
             return briefing

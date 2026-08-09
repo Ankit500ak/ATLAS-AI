@@ -230,7 +230,7 @@ class TelegramBotImpl(TelegramBotService):
                     reply, response.get("intent", ""), {}
                 )
                 if suggestions:
-                    reply += "\n\n**You might also ask:**\n"
+                    reply += "\n\n<b>You might also ask:</b>\n"
                     for s in suggestions[:2]:
                         reply += f"  {s}\n"
             except Exception as e:
@@ -261,7 +261,7 @@ class TelegramBotImpl(TelegramBotService):
 
             if result["success"]:
                 transcribed = result["text"]
-                await self.safe_send(update.message, f"**Transcribed:** {transcribed}\n\nProcessing...")
+                await self.safe_send(update.message, f"<b>Transcribed:</b> {transcribed}\n\nProcessing...")
 
                 from app.application.use_cases import MessageProcessorUseCase
                 processor = MessageProcessorUseCase()
@@ -302,11 +302,11 @@ class TelegramBotImpl(TelegramBotService):
             if result["success"] and result.get("analysis") != "Image analysis unavailable":
                 from app.utils.formatters import escape_markdown
                 analysis = escape_markdown(result["analysis"])
-                reply = f"**Image Analysis:**\n\n{analysis}"
+                reply = f"<b>Image Analysis:</b>\n\n{analysis}"
 
                 if update.message.caption:
                     caption = escape_markdown(update.message.caption)
-                    reply += f"\n\n**Your question:** {caption}"
+                    reply += f"\n\n<b>Your question:</b> {caption}"
 
                 await self.safe_send(update.message, reply)
             else:
@@ -394,9 +394,9 @@ class TelegramBotImpl(TelegramBotService):
                 from app.utils.formatters import escape_markdown
                 summary = escape_markdown(result.get('summary', 'N/A'))
                 reply = (
-                    f"**Document Processed: {safe_name}**\n\n"
-                    f"**Summary:**\n{summary}\n\n"
-                    f"**Key Insights:**\n"
+                    f"<b>Document Processed: {safe_name}</b>\n\n"
+                    f"<b>Summary:</b>\n{summary}\n\n"
+                    f"<b>Key Insights:</b>\n"
                 )
                 for insight in result.get("key_insights", [])[:5]:
                     reply += f"• {escape_markdown(insight)}\n"

@@ -95,80 +95,80 @@ Let's go! Try me:
 
 {additional_context}""",
 
-        "research_company": """**{name} ({symbol})** - Company Overview
+        "research_company": """<b>{name} ({symbol})</b> - Company Overview
 
-**Business Summary:**
+<b>Business Summary:</b>
 {description}
 
-**Key Metrics:**
+<b>Key Metrics:</b>
 • Sector: {sector}
 • Industry: {industry}
 • Revenue: {revenue}
 • Net Income: {net_income}
 • Market Cap: {market_cap}
 
-**Financial Health:**
+<b>Financial Health:</b>
 • Current Ratio: {current_ratio}
 • Debt-to-Equity: {debt_to_equity}
 • Return on Equity: {roe}
 
 {recent_news}""",
 
-        "compare_companies": """**Comparison: {company1} vs {company2}**
+        "compare_companies": """<b>Comparison: {company1} vs {company2}</b>
 
-| Metric | {company1} | {company2} |
-|--------|------------|------------|
-| Price | ${price1} | ${price2} |
-| Market Cap | {mcap1} | {mcap2} |
-| P/E Ratio | {pe1} | {pe2} |
-| Revenue | {rev1} | {rev2} |
-| Profit Margin | {pm1} | {pm2} |
+Metric | {company1} | {company2}
+-------|------------|------------
+Price | ${price1} | ${price2}
+Market Cap | {mcap1} | {mcap2}
+P/E Ratio | {pe1} | {pe2}
+Revenue | {rev1} | {rev2}
+Profit Margin | {pm1} | {pm2}
 
-**Key Differences:**
+<b>Key Differences:</b>
 {analysis}
 
-**Verdict:**
+<b>Verdict:</b>
 {verdict}""",
 
-        "earnings_analysis": """**{symbol} Earnings Summary - Q{quarter} {year}**
+        "earnings_analysis": """<b>{symbol} Earnings Summary - Q{quarter} {year}</b>
 
-**Key Numbers:**
+<b>Key Numbers:</b>
 • EPS: ${actual_eps} (Estimate: ${est_eps}) → {surprise}
 • Revenue: ${actual_rev} (Estimate: ${est_rev})
 
-**Key Highlights:**
+<b>Key Highlights:</b>
 {highlights}
 
-**Management Guidance:**
+<b>Management Guidance:</b>
 {guidance}
 
-**My Take:**
+<b>My Take:</b>
 {analysis}""",
 
-        "market_news": """**Today's Market Overview**
+        "market_news": """<b>Today's Market Overview</b>
 
 {market_summary}
 
-**Top Stories:**
+<b>Top Stories:</b>
 {top_stories}
 
-**Sector Performance:**
+<b>Sector Performance:</b>
 {sector_performance}
 
-**Key Takeaways:**
+<b>Key Takeaways:</b>
 {takeaways}""",
 
-        "explain_concept": """**{concept}**
+        "explain_concept": """<b>{concept}</b>
 
 {definition}
 
-**How it works:**
+<b>How it works:</b>
 {explanation}
 
-**Why it matters for investors:**
+<b>Why it matters for investors:</b>
 {importance}
 
-**Example:**
+<b>Example:</b>
 {example}""",
     }
 

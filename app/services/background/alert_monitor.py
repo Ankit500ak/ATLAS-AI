@@ -90,20 +90,20 @@ class AlertMonitor:
                 return False
 
             if alert_type == "price_above":
-                message = f"**Price Alert: {symbol}**\n\n{symbol} has reached ${current:.2f}, crossing your target of ${target:.2f}!"
+                message = f"<b>🚨 Price Alert: {symbol}</b>\n\n{symbol} has reached <code>${current:.2f}</code>, crossing your target of <code>${target:.2f}</code>!"
             elif alert_type == "price_below":
-                message = f"**Price Alert: {symbol}**\n\n{symbol} has dropped to ${current:.2f}, below your target of ${target:.2f}!"
+                message = f"<b>🚨 Price Alert: {symbol}</b>\n\n{symbol} has dropped to <code>${current:.2f}</code>, below your target of <code>${target:.2f}</code>!"
             else:
-                message = f"**Price Alert: {symbol}**\n\n{symbol} has moved {current:.2f}%!"
+                message = f"<b>🚨 Price Alert: {symbol}</b>\n\n{symbol} has moved <code>{current:.2f}%</code>!"
 
             if alert_data.get("message"):
-                message += f"\n\n_Note: {alert_data['message']}_"
+                message += f"\n\n<i>Note: {alert_data['message']}</i>"
 
             if self._telegram_bot:
                 await self._telegram_bot.send_message(
                     chat_id=telegram_id,
                     text=message,
-                    parse_mode="Markdown",
+                    parse_mode="HTML",
                 )
                 logger.info(f"Alert sent to user {telegram_id}: {symbol} {alert_type}")
                 return True

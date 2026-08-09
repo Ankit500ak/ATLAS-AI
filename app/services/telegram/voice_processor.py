@@ -150,7 +150,7 @@ class VoiceProcessor:
             image = Image.open(file_path)
             text = pytesseract.image_to_string(image)
             if text.strip():
-                return f"**Extracted text from image:**\n\n{text.strip()}\n\n(I can provide better analysis with an OpenAI API key for vision capabilities)"
+                return f"<b>Extracted text from image:</b>\n\n{text.strip()}\n\n(I can provide better analysis with an OpenAI API key for vision capabilities)"
         except ImportError:
             logger.warning("pytesseract not installed, cannot perform OCR")
         except Exception as e:

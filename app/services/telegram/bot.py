@@ -264,7 +264,7 @@ Rules:
                 if action == "list":
                     watchlist = await watchlist_manager.get_watchlist(user.id, db)
                     if watchlist:
-                        reply = f"**Your Watchlist:**\n\n"
+                        reply = f"<b>Your Watchlist:</b>\n\n"
                         for symbol in watchlist:
                             reply += f"  - {symbol}\n"
                         reply += f"\nTracking {len(watchlist)} stocks. Want me to analyze any of them?"
@@ -287,7 +287,7 @@ Rules:
                     reply, response.get("intent", ""), {}
                 )
                 if suggestions:
-                    reply += "\n\n**You might also ask:**\n"
+                    reply += "\n\n<b>You might also ask:</b>\n"
                     for s in suggestions[:2]:
                         reply += f"  {s}\n"
             except Exception as e:
@@ -319,7 +319,7 @@ Rules:
 
             if result["success"]:
                 transcribed = result["text"]
-                await self.safe_send(update.message, f"**Transcribed:** {transcribed}\n\nProcessing...")
+                await self.safe_send(update.message, f"<b>Transcribed:</b> {transcribed}\n\nProcessing...")
 
                 async with async_session_factory() as db:
                     response = await self.orchestrator.process_message(
@@ -364,11 +364,11 @@ Rules:
             if result["success"] and result.get("analysis") != "Image analysis unavailable":
                 from app.utils.formatters import escape_markdown
                 analysis = escape_markdown(result["analysis"])
-                reply = f"**Image Analysis:**\n\n{analysis}"
+                reply = f"<b>Image Analysis:</b>\n\n{analysis}"
 
                 if update.message.caption:
                     caption = escape_markdown(update.message.caption)
-                    reply += f"\n\n**Your question:** {caption}"
+                    reply += f"\n\n<b>Your question:</b> {caption}"
 
                 await self.safe_send(update.message, reply)
             else:
@@ -456,9 +456,9 @@ Rules:
                 from app.utils.formatters import escape_markdown
                 summary = escape_markdown(result.get('summary', 'N/A'))
                 reply = (
-                    f"**Document Processed: {safe_name}**\n\n"
-                    f"**Summary:**\n{summary}\n\n"
-                    f"**Key Insights:**\n"
+                    f"<b>Document Processed: {safe_name}</b>\n\n"
+                    f"<b>Summary:</b>\n{summary}\n\n"
+                    f"<b>Key Insights:</b>\n"
                 )
                 for insight in result.get("key_insights", [])[:5]:
                     reply += f"• {escape_markdown(insight)}\n"
@@ -468,7 +468,7 @@ Rules:
 
             from app.utils.formatters import chunk_message
             for chunk in chunk_message(reply):
-                await update.message.reply_text(chunk, parse_mode="Markdown")
+                await update.message.reply_text(chunk, parse_mode="HTML")
         except Exception as e:
             logger.error(f"Error handling document from {user.id}: {e}", exc_info=True)
             try:

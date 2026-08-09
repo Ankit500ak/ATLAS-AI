@@ -16,7 +16,7 @@ class ModelRouter:
         "mimo": {
             "model": "mimo-v2.5-free",
             "cost_per_1k": 0.0,
-            "max_tokens": 4096,
+            "max_tokens": 8192,
             "quality": "good",
         },
         "gpt4": {

@@ -40,9 +40,18 @@ async def lifespan(app: FastAPI):
         bot_app = telegram_bot_service.build_app()
         await bot_app.initialize()
         await bot_app.start()
-        if settings.telegram_webhook_url:
-            await bot_app.bot.set_webhook(url=f"{settings.telegram_webhook_url}/webhook/telegram")
-            logger.info(f"Webhook set to {settings.telegram_webhook_url}")
+        
+        # Auto-detect webhook URL from Railway or use polling
+        webhook_url = settings.telegram_webhook_url
+        if not webhook_url and settings.app_env == "production":
+            # Try to auto-detect from Railway
+            railway_url = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+            if railway_url:
+                webhook_url = f"https://{railway_url}"
+        
+        if webhook_url:
+            await bot_app.bot.set_webhook(url=f"{webhook_url}/webhook/telegram")
+            logger.info(f"Webhook set to {webhook_url}")
         else:
             await bot_app.updater.start_polling(drop_pending_updates=True)
             logger.info("Bot started with polling")

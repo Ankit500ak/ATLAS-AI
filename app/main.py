@@ -84,13 +84,10 @@ async def root():
 
 @app.get("/health")
 async def health_check(request: Request):
-    background_runner = request.app.state.background_runner
-    cache_service = get_container().resolve(CacheService)
-    return {
-        "status": "healthy",
-        "background_tasks": background_runner.get_status(),
-        "cache": cache_service.get_stats(),
-    }
+    result = {"status": "healthy"}
+    if hasattr(request.app.state, 'background_runner'):
+        result["background_tasks"] = request.app.state.background_runner.get_status()
+    return result
 
 
 @app.get("/api/v1/status")

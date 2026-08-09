@@ -1,0 +1,206 @@
+{
+  "sec_filing": {
+    "has_symbols": [
+      "Analyze the latest {form_type} filing",
+      "Show me other SEC filings for {symbol}"
+    ],
+    "no_symbols": [],
+    "no_filings": []
+  },
+  "set_alert": {
+    "success": [
+      "Set another alert",
+      "Check my alerts"
+    ],
+    "no_symbols": [],
+    "no_price": []
+  },
+  "daily_briefing": {
+    "default": [
+      "What's driving the market today?",
+      "Any news on my watchlist?",
+      "Show me my watchlist"
+    ]
+  },
+  "portfolio_analysis": {
+    "has_holdings": [
+      "Compare my holdings",
+      "What are the risks in my portfolio?",
+      "Show me my watchlist"
+    ],
+    "empty": [
+      "Add AAPL, MSFT, and GOOGL to my watchlist"
+    ]
+  },
+  "view_watchlist": {
+    "has_stocks": [
+      "Analyze {first_stock}",
+      "Add more stocks",
+      "Compare my stocks",
+      "Show me market news"
+    ],
+    "empty": [
+      "Add NVDA to my watchlist",
+      "Track Apple stock"
+    ],
+    "user_not_found": []
+  },
+  "add_to_watchlist": {
+    "success": [
+      "Analyze {symbol}",
+      "Show my watchlist",
+      "What's {symbol}'s current price?"
+    ],
+    "already_exists": [
+      "Show my watchlist",
+      "Add a different stock"
+    ],
+    "no_symbols": [
+      "Add AAPL",
+      "Track NVDA"
+    ]
+  },
+  "view_alerts": {
+    "has_alerts": [
+      "Add new alert",
+      "Remove an alert",
+      "Show me my watchlist"
+    ],
+    "empty": [
+      "Alert me when NVDA hits $100",
+      "Notify me if Apple drops below $150"
+    ],
+    "user_not_found": []
+  },
+  "upcoming_earnings": {
+    "has_data": [
+      "Analyze Apple before earnings",
+      "How did NVDA do last quarter?",
+      "Show me my watchlist"
+    ],
+    "no_data": []
+  },
+  "system_status": {
+    "default": [
+      "What's happening in the market?",
+      "Show me my watchlist",
+      "Any news on my watchlist?"
+    ]
+  },
+  "market_sentiment": {
+    "default": [
+      "What's driving the market today?",
+      "Show me my watchlist",
+      "Any news on my watchlist?"
+    ]
+  },
+  "analyze_document": {
+    "has_document": [
+      "What are the key risks?",
+      "Summarize the financials",
+      "Show me the revenue breakdown"
+    ],
+    "no_document": []
+  },
+  "clarification": {
+    "default": [
+      "What's {symbol}'s current price?",
+      "Show me {symbol}'s latest earnings",
+      "Add {symbol} to my watchlist",
+      "Research {symbol}"
+    ]
+  },
+  "email_query": {
+    "connected": [
+      "Summarize my recent emails",
+      "Any emails from my broker?"
+    ],
+    "not_connected": []
+  },
+  "calendar_query": {
+    "connected": [
+      "What's on my schedule tomorrow?",
+      "Show me this week's meetings"
+    ],
+    "not_connected": []
+  },
+  "drive_query": {
+    "connected": [
+      "Find financial reports",
+      "Show me my spreadsheets"
+    ],
+    "not_connected": []
+  },
+  "sheets_query": {
+    "connected": [
+      "Analyze this spreadsheet",
+      "Show me the latest data"
+    ],
+    "not_connected": []
+  },
+  "query_stock_price": {
+    "default": [
+      "Analyze {symbol}",
+      "Show me {symbol}'s news",
+      "What's {symbol}'s P/E ratio?"
+    ]
+  },
+  "research_company": {
+    "default": [
+      "What's {symbol}'s current price?",
+      "Show me {symbol}'s latest earnings",
+      "Add {symbol} to my watchlist"
+    ]
+  },
+  "compare_companies": {
+    "default": [
+      "Which is a better investment?",
+      "Show me their financials side by side",
+      "Add both to my watchlist"
+    ]
+  },
+  "earnings_analysis": {
+    "default": [
+      "What's the revenue trend?",
+      "Compare with previous quarter",
+      "Add {symbol} to my watchlist"
+    ]
+  },
+  "market_news": {
+    "default": [
+      "Tell me more about this story",
+      "How does this affect my watchlist?",
+      "Show me my watchlist"
+    ]
+  },
+  "explain_concept": {
+    "default": [
+      "Give me an example",
+      "How does this apply to investing?",
+      "What are the risks?"
+    ]
+  },
+  "macro_economic": {
+    "default": [
+      "How does this affect the market?",
+      "What sectors benefit?",
+      "Show me market sentiment"
+    ]
+  },
+  "general_question": {
+    "default": [
+      "Tell me about a stock",
+      "Show me my watchlist",
+      "What's happening in the market?"
+    ]
+  },
+  "error": {
+    "default": []
+  },
+  "onboarding": {
+    "default": []
+  },
+  "reset_profile": {
+    "default": []
+  }
+}
